@@ -1,0 +1,102 @@
+[
+  {
+    "scenario": "Current Market",
+    "allocation": {
+      "rlusd": 0.7649999999999999,
+      "highVolArb": 0.18,
+      "ecoRWA": 0.1
+    },
+    "projectedYields": {
+      "baseYield": 0.19112999999999997,
+      "ecoBonus": 0.024,
+      "totalYield": 0.21512999999999996,
+      "annualizedAPY": 2.5815599999999996,
+      "projectedWeeklyIncome": 496.8360277136258,
+      "projectedMonthlyIncome": 2151.2999999999997
+    },
+    "hypeBoost": true,
+    "etfSurge": false,
+    "autoHedge": true,
+    "timestamp": "2025-07-17T06:52:48.954Z"
+  },
+  {
+    "scenario": "ETF Surge Event",
+    "allocation": {
+      "rlusd": 0.5,
+      "highVolArb": 0.4,
+      "ecoRWA": 0.1
+    },
+    "projectedYields": {
+      "baseYield": 0.42090000000000005,
+      "ecoBonus": 0.024,
+      "totalYield": 0.4449000000000001,
+      "annualizedAPY": 5.338800000000001,
+      "projectedWeeklyIncome": 1027.482678983834,
+      "projectedMonthlyIncome": 4449.000000000001
+    },
+    "hypeBoost": true,
+    "etfSurge": true,
+    "autoHedge": false,
+    "timestamp": "2025-07-17T06:52:48.958Z"
+  },
+  {
+    "scenario": "Nasdaq Crash Hedge",
+    "allocation": {
+      "rlusd": 0.7999999999999999,
+      "highVolArb": 0.15000000000000002,
+      "ecoRWA": 0.1
+    },
+    "projectedYields": {
+      "baseYield": 0.1555,
+      "ecoBonus": 0.024,
+      "totalYield": 0.1795,
+      "annualizedAPY": 2.154,
+      "projectedWeeklyIncome": 414.54965357967666,
+      "projectedMonthlyIncome": 1795
+    },
+    "hypeBoost": false,
+    "etfSurge": false,
+    "autoHedge": true,
+    "timestamp": "2025-07-17T06:52:48.961Z"
+  },
+  {
+    "scenario": "Hype Threshold Test",
+    "allocation": {
+      "rlusd": 0.7649999999999999,
+      "highVolArb": 0.18,
+      "ecoRWA": 0.1
+    },
+    "projectedYields": {
+      "baseYield": 0.19112999999999997,
+      "ecoBonus": 0.024,
+      "totalYield": 0.21512999999999996,
+      "annualizedAPY": 2.5815599999999996,
+      "projectedWeeklyIncome": 496.8360277136258,
+      "projectedMonthlyIncome": 2151.2999999999997
+    },
+    "hypeBoost": true,
+    "etfSurge": false,
+    "autoHedge": true,
+    "timestamp": "2025-07-17T06:52:48.963Z"
+  },
+  {
+    "scenario": "XRP $3 Moon Shot",
+    "allocation": {
+      "rlusd": 0.6,
+      "highVolArb": 0.35000000000000003,
+      "ecoRWA": 0.1
+    },
+    "projectedYields": {
+      "baseYield": 0.39588749999999995,
+      "ecoBonus": 0.024,
+      "totalYield": 0.41988749999999997,
+      "annualizedAPY": 5.03865,
+      "projectedWeeklyIncome": 969.717090069284,
+      "projectedMonthlyIncome": 4198.875
+    },
+    "hypeBoost": true,
+    "etfSurge": true,
+    "autoHedge": true,
+    "timestamp": "2025-07-17T06:52:48.966Z"
+  }
+]

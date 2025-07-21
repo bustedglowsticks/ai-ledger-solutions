@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Ledger Solutions - Live Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --dark: #1f2937;
+      --light: #f9fafb;
+      --gray: #6b7280;
+      --card-bg: #ffffff;
+      --body-bg: #f3f4f6;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--body-bg);
+      color: var(--dark);
+      line-height: 1.5;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+    
+    .header {
+      background-color: var(--primary);
+      color: white;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .header h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+    }
+    
+    .header h1 .status-indicator {
+      width: 10px;
+      height: 10px;
+      background-color: var(--success);
+      border-radius: 50%;
+      margin-right: 0.75rem;
+    }
+    
+    .header p {
+      font-size: 0.875rem;
+      opacity: 0.9;
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .card {
+      background-color: var(--card-bg);
+      border-radius: 0.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+    }
+    
+    .card-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      font-size: 1.125rem;
+      color: var(--dark);
+    }
+    
+    .card-header svg {
+      margin-right: 0.5rem;
+      color: var(--primary);
+    }
+    
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    
+    .stat-item {
+      margin-bottom: 0.75rem;
+    }
+    
+    .stat-label {
+      font-size: 0.875rem;
+      color: var(--gray);
+      margin-bottom: 0.25rem;
+    }
+    
+    .stat-value {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--dark);
+    }
+    
+    .stat-value.highlight {
+      color: var(--primary);
+    }
+    
+    .stat-value.success {
+      color: var(--success);
+    }
+    
+    .stat-value.warning {
+      color: var(--warning);
+    }
+    
+    .stat-value.danger {
+      color: var(--danger);
+    }
+    
+    .trades-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .trades-table th {
+      text-align: left;
+      font-size: 0.875rem;
+      color: var(--gray);
+      padding: 0.75rem 0.5rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .trades-table td {
+      padding: 0.75rem 0.5rem;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 0.875rem;
+    }
+    
+    .trades-table tr:last-child td {
+      border-bottom: none;
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    
+    .badge-success {
+      background-color: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+    }
+    
+    .badge-warning {
+      background-color: rgba(245, 158, 11, 0.1);
+      color: var(--warning);
+    }
+    
+    .badge-danger {
+      background-color: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+    }
+    
+    .chart-container {
+      height: 200px;
+      position: relative;
+    }
+    
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: var(--gray);
+      font-size: 0.875rem;
+    }
+    
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1><span class="status-indicator"></span> AI Ledger Solutions - Live Dashboard</h1>
+      <p>Real-time XRPL Trading Bot Performance</p>
+    </div>
+    
+    <div class="grid">
+      <!-- Bot Status Card -->
+      <div class="card">
+        <div class="card-header">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+            <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+            <line x1="6" y1="6" x2="6.01" y2="6"></line>
+            <line x1="6" y1="18" x2="6.01" y2="18"></line>
+          </svg>
+          Bot Status
+        </div>
+        <div class="stat-grid">
+          <div class="stat-item">
+            <div class="stat-label">Status:</div>
+            <div class="stat-value" id="bot-status">-</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Network:</div>
+            <div class="stat-value" id="bot-network">-</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Last Update:</div>
+            <div class="stat-value" id="last-update">-</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Wallet Card -->
+      <div class="card">
+        <div class="card-header">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"></path>
+            <path d="M4 6v12c0 1.1.9 2 2 2h14v-4"></path>
+            <path d="M18 12a2 2 0 0 0 0 4h4v-4z"></path>
+          </svg>
+          Wallet
+        </div>
+        <div class="stat-grid">
+          <div class="stat-item">
+            <div class="stat-label">Address:</div>
+            <div class="stat-value" id="wallet-address">-</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Balance:</div>
+            <div class="stat-value" id="wallet-balance">-</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">USD Value:</div>
+            <div class="stat-value" id="usd-value">-</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="grid">
+      <!-- Performance Card -->
+      <div class="card">
+        <div class="card-header">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+          </svg>
+          Performance
+        </div>
+        <div class="stat-grid">
+          <div class="stat-item">
+            <div class="stat-label">Total Trades:</div>
+            <div class="stat-value" id="total-trades">0</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Profitable:</div>
+            <div class="stat-value success" id="profitable-trades">0</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Total Profit:</div>
+            <div class="stat-value highlight" id="total-profit">$0.00</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">APY:</div>
+            <div class="stat-value highlight" id="apy">77.1%</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Weekly Yield:</div>
+            <div class="stat-value" id="weekly-yield">$0.00</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Performance Chart -->
+      <div class="card">
+        <div class="card-header">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+          </svg>
+          Performance Chart
+        </div>
+        <div class="chart-container" id="performance-chart">
+          <div class="loading">Loading chart data...</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Recent Trades Card -->
+    <div class="card">
+      <div class="card-header">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+          <polyline points="16 7 22 7 22 13"></polyline>
+        </svg>
+        Recent Trades
+      </div>
+      <table class="trades-table">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Pair</th>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Price</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="trades-table-body">
+          <tr>
+            <td colspan="6" class="loading">Loading trades...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Dashboard data refresh
+    const updateDashboard = async () => {
+      try {
+        const response = await fetch('/api/dashboard-data');
+        const data = await response.json();
+        
+        // Update Bot Status
+        document.getElementById('bot-status').textContent = data.status || 'Unknown';
+        document.getElementById('bot-network').textContent = data.network || 'Disconnected';
+        document.getElementById('last-update').textContent = data.lastUpdate || '-';
+        
+        // Update Wallet Info
+        document.getElementById('wallet-address').textContent = data.walletAddress || '-';
+        document.getElementById('wallet-balance').textContent = data.walletBalance || '-';
+        document.getElementById('usd-value').textContent = data.usdValue || '-';
+        
+        // Update Performance Metrics
+        document.getElementById('total-trades').textContent = data.totalTrades || 0;
+        document.getElementById('profitable-trades').textContent = data.profitableTrades || 0;
+        document.getElementById('total-profit').textContent = formatCurrency(data.totalProfit);
+        document.getElementById('apy').textContent = `${data.apy || 0}%`;
+        document.getElementById('weekly-yield').textContent = formatCurrency(data.weeklyYield);
+        
+        // Update Trades Table
+        updateTradesTable(data.recentTrades || []);
+        
+        // Update status indicator color
+        const statusIndicator = document.querySelector('.status-indicator');
+        if (data.status === 'Running') {
+          statusIndicator.style.backgroundColor = 'var(--success)';
+        } else if (data.status === 'Warning') {
+          statusIndicator.style.backgroundColor = 'var(--warning)';
+        } else if (data.status === 'Error') {
+          statusIndicator.style.backgroundColor = 'var(--danger)';
+        } else {
+          statusIndicator.style.backgroundColor = 'var(--gray)';
+        }
+        
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+      }
+    };
+    
+    // Format currency values
+    const formatCurrency = (value) => {
+      if (value === undefined || value === null) return '$0.00';
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+      }).format(value);
+    };
+    
+    // Update trades table
+    const updateTradesTable = (trades) => {
+      const tableBody = document.getElementById('trades-table-body');
+      
+      if (!trades || trades.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="6" class="loading">No recent trades</td></tr>`;
+        return;
+      }
+      
+      tableBody.innerHTML = '';
+      
+      trades.forEach(trade => {
+        const row = document.createElement('tr');
+        
+        // Format the trade time
+        const tradeTime = trade.timestamp ? new Date(trade.timestamp).toLocaleTimeString() : '-';
+        
+        // Determine status badge class
+        let statusBadgeClass = 'badge-success';
+        if (trade.status === 'pending') statusBadgeClass = 'badge-warning';
+        if (trade.status === 'failed') statusBadgeClass = 'badge-danger';
+        
+        row.innerHTML = `
+          <td>${tradeTime}</td>
+          <td>${trade.pair || '-'}</td>
+          <td>${trade.type || '-'}</td>
+          <td>${trade.amount || '-'}</td>
+          <td>${trade.price || '-'}</td>
+          <td><span class="badge ${statusBadgeClass}">${trade.status || 'unknown'}</span></td>
+        `;
+        
+        tableBody.appendChild(row);
+      });
+    };
+    
+    // Initial update
+    updateDashboard();
+    
+    // Set up polling every 10 seconds
+    setInterval(updateDashboard, 10000);
+  </script>
+</body>
+</html>

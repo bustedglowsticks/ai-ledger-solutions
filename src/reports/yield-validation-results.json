@@ -1,0 +1,84 @@
+{
+  "timestamp": "2025-07-17T06:53:54.486Z",
+  "weightedMeanYield": 3.2932050000000004,
+  "requiredAPY": 0.6,
+  "passesValidation": true,
+  "scenarios": [
+    {
+      "scenario": "Current Market",
+      "weight": 0.4,
+      "allocation": {
+        "rlusd": 0.7649999999999999,
+        "highVolArb": 0.18,
+        "ecoRWA": 0.1
+      },
+      "monthlyYield": 0.21512999999999996,
+      "annualYield": 2.5815599999999996,
+      "hypeBoost": true,
+      "etfSurge": false,
+      "autoHedge": true
+    },
+    {
+      "scenario": "ETF Surge",
+      "weight": 0.2,
+      "allocation": {
+        "rlusd": 0.5,
+        "highVolArb": 0.4,
+        "ecoRWA": 0.1
+      },
+      "monthlyYield": 0.4449000000000001,
+      "annualYield": 5.338800000000001,
+      "hypeBoost": true,
+      "etfSurge": true,
+      "autoHedge": false
+    },
+    {
+      "scenario": "Nasdaq Crash",
+      "weight": 0.2,
+      "allocation": {
+        "rlusd": 0.7999999999999999,
+        "highVolArb": 0.15000000000000002,
+        "ecoRWA": 0.1
+      },
+      "monthlyYield": 0.1795,
+      "annualYield": 2.154,
+      "hypeBoost": false,
+      "etfSurge": false,
+      "autoHedge": true
+    },
+    {
+      "scenario": "Hype Mode",
+      "weight": 0.1,
+      "allocation": {
+        "rlusd": 0.7649999999999999,
+        "highVolArb": 0.18,
+        "ecoRWA": 0.1
+      },
+      "monthlyYield": 0.21512999999999996,
+      "annualYield": 2.5815599999999996,
+      "hypeBoost": true,
+      "etfSurge": false,
+      "autoHedge": true
+    },
+    {
+      "scenario": "Moon Shot",
+      "weight": 0.1,
+      "allocation": {
+        "rlusd": 0.6,
+        "highVolArb": 0.35000000000000003,
+        "ecoRWA": 0.1
+      },
+      "monthlyYield": 0.41988749999999997,
+      "annualYield": 5.03865,
+      "hypeBoost": true,
+      "etfSurge": true,
+      "autoHedge": true
+    }
+  ],
+  "projections": {
+    "botTrading": 32932.05,
+    "saasRevenue": 58800,
+    "affiliateRevenue": 4939.8075,
+    "totalRevenue": 96671.8575
+  }
+}

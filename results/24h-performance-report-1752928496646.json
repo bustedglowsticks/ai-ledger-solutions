@@ -1,0 +1,86 @@
+{
+  "timestamp": "2025-07-19T12:34:56.628Z",
+  "period": "24h",
+  "summary": {
+    "totalProfit": "84.800699",
+    "totalFees": "147.132934",
+    "totalSpread": "171.744922",
+    "totalImpermanentLoss": "77.737585",
+    "profitableDays": 21,
+    "totalDays": 29,
+    "winRate": "72.41",
+    "averageDailyProfit": "2.924162",
+    "maxDailyProfit": "13.661233",
+    "minDailyProfit": "-4.652664",
+    "profitVolatility": "5.051978",
+    "profitMargin": "21.38"
+  },
+  "detailedAnalysis": {
+    "profitability": {
+      "status": "PROFITABLE",
+      "strength": "GOOD",
+      "trend": "POSITIVE",
+      "recommendation": "SCALE_UP"
+    },
+    "riskManagement": {
+      "winRate": "GOOD",
+      "volatility": "HIGH",
+      "riskLevel": "HIGH",
+      "recommendation": "MAINTAIN"
+    },
+    "efficiency": {
+      "profitMargin": "POOR",
+      "feeEfficiency": "INEFFICIENT",
+      "recommendation": "REVIEW_STRATEGY"
+    },
+    "scalability": {
+      "currentCapacity": "MEDIUM",
+      "scalingPotential": "EXCELLENT",
+      "recommendation": "READY_TO_SCALE"
+    }
+  },
+  "recommendations": [
+    {
+      "priority": "HIGH",
+      "category": "EFFICIENCY",
+      "title": "Optimize Fee Structure",
+      "description": "Profit margin of 21.38% indicates high fee burden.",
+      "action": "Review and optimize transaction costs and strategy efficiency.",
+      "impact": "MEDIUM"
+    },
+    {
+      "priority": "MEDIUM",
+      "category": "SCALABILITY",
+      "title": "Scale Up Operations",
+      "description": "Bot performance indicates readiness for capital scaling.",
+      "action": "Increase position sizes and expand to additional markets.",
+      "impact": "HIGH"
+    }
+  ],
+  "nextSteps": [
+    {
+      "step": 1,
+      "action": "Implement Critical Recommendations",
+      "timeline": "IMMEDIATE",
+      "priority": "CRITICAL"
+    },
+    {
+      "step": 2,
+      "action": "Apply Performance Optimizations",
+      "timeline": "24_HOURS",
+      "priority": "HIGH"
+    },
+    {
+      "step": 3,
+      "action": "Monitor and Validate Improvements",
+      "timeline": "1_WEEK",
+      "priority": "MEDIUM"
+    },
+    {
+      "step": 4,
+      "action": "Scale Operations if Performance Improves",
+      "timeline": "2_WEEKS",
+      "priority": "MEDIUM"
+    }
+  ]
+}

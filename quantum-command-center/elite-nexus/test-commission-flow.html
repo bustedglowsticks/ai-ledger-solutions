@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commission Flow Test - Elite Asset Command Nexus</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/MotionPathPlugin.min.js"></script>
+    <link rel="stylesheet" href="css/commission-styles.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .bot-simulator {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .bot-card {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .bot-card:hover {
+            border-color: #00d4ff;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+        
+        .wallet-area {
+            background: rgba(15, 23, 42, 0.9);
+            border: 2px solid rgba(0, 255, 136, 0.5);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .test-button {
+            background: linear-gradient(135deg, #00d4ff, #00ff88);
+            color: #0f172a;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.4);
+        }
+        
+        .status-display {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Elite Asset Command Nexus - Commission Flow Test</h1>
+        <p>Phase 3 Overlord Edition: 2D GSAP Lines, Wallet Popups, XRPL Timelines</p>
+        
+        <div class="bot-simulator">
+            <div class="bot-card" data-bot="Alpha Bot" data-yield="$1,247.50">
+                <h3>🤖 Alpha Bot</h3>
+                <p>Yield: $1,247.50</p>
+                <p>Status: Active</p>
+            </div>
+            
+            <div class="bot-card" data-bot="Beta Bot" data-yield="$892.30">
+                <h3>🤖 Beta Bot</h3>
+                <p>Yield: $892.30</p>
+                <p>Status: Active</p>
+            </div>
+            
+            <div class="bot-card" data-bot="Gamma Bot" data-yield="$2,156.80">
+                <h3>🤖 Gamma Bot</h3>
+                <p>Yield: $2,156.80</p>
+                <p>Status: Active</p>
+            </div>
+        </div>
+        
+        <div class="wallet-area" id="wallet-target">
+            <h2>💰 Master Wallet</h2>
+            <p>Click a bot above to see commission flow animation</p>
+            <p>Balance: $47,892.45 XRP</p>
+        </div>
+        
+        <div style="text-align: center; margin-top: 30px;">
+            <button class="test-button" onclick="testAllCommissions()">Test All Commission Flows</button>
+            <button class="test-button" onclick="testRandomCommission()">Random Commission</button>
+            <button class="test-button" onclick="clearAnimations()">Clear Animations</button>
+        </div>
+        
+        <div class="status-display" id="status-log">
+            <strong>Commission Flow Status:</strong><br>
+            Ready to test Phase 3 commission animations...
+        </div>
+    </div>
+
+    <script src="js/commission-flow.js"></script>
+    <script>
+        // Register GSAP plugins
+        gsap.registerPlugin(MotionPathPlugin);
+        
+        // Initialize commission flow testing
+        document.addEventListener('DOMContentLoaded', () => {
+            const botCards = document.querySelectorAll('.bot-card');
+            const walletTarget = document.getElementById('wallet-target');
+            const statusLog = document.getElementById('status-log');
+            
+            // Add click handlers to bot cards
+            botCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const botName = card.dataset.bot;
+                    const yield = card.dataset.yield;
+                    
+                    // Get positions
+                    const botRect = card.getBoundingClientRect();
+                    const walletRect = walletTarget.getBoundingClientRect();
+                    
+                    const fromPos = {
+                        x: botRect.left + botRect.width / 2,
+                        y: botRect.top + botRect.height / 2
+                    };
+                    
+                    const toPos = {
+                        x: walletRect.left + walletRect.width / 2,
+                        y: walletRect.top + walletRect.height / 2
+                    };
+                    
+                    // Log the commission event
+                    logStatus(`Commission triggered: ${botName} → ${yield}`);
+                    
+                    // Animate commission flow
+                    animateCommission(fromPos, toPos, yield.replace('$', '').replace(',', ''), botName);
+                });
+            });
+        });
+        
+        function testAllCommissions() {
+            const botCards = document.querySelectorAll('.bot-card');
+            const walletTarget = document.getElementById('wallet-target');
+            
+            botCards.forEach((card, index) => {
+                setTimeout(() => {
+                    const botName = card.dataset.bot;
+                    const yield = card.dataset.yield;
+                    
+                    const botRect = card.getBoundingClientRect();
+                    const walletRect = walletTarget.getBoundingClientRect();
+                    
+                    const fromPos = {
+                        x: botRect.left + botRect.width / 2,
+                        y: botRect.top + botRect.height / 2
+                    };
+                    
+                    const toPos = {
+                        x: walletRect.left + walletRect.width / 2,
+                        y: walletRect.top + walletRect.height / 2
+                    };
+                    
+                    logStatus(`Auto-commission: ${botName} → ${yield}`);
+                    animateCommission(fromPos, toPos, yield.replace('$', '').replace(',', ''), botName);
+                }, index * 1000);
+            });
+        }
+        
+        function testRandomCommission() {
+            const botCards = document.querySelectorAll('.bot-card');
+            const randomBot = botCards[Math.floor(Math.random() * botCards.length)];
+            randomBot.click();
+        }
+        
+        function clearAnimations() {
+            // Remove all commission elements
+            document.querySelectorAll('.commission-line, .commission-particle, .commission-burst, .wallet-popup').forEach(el => {
+                el.remove();
+            });
+            
+            // Clear SVG containers
+            const svgContainer = document.getElementById('commission-svg-container');
+            if (svgContainer) {
+                svgContainer.innerHTML = '';
+            }
+            
+            logStatus('All animations cleared');
+        }
+        
+        function logStatus(message) {
+            const statusLog = document.getElementById('status-log');
+            const timestamp = new Date().toLocaleTimeString();
+            statusLog.innerHTML += `<br>[${timestamp}] ${message}`;
+            statusLog.scrollTop = statusLog.scrollHeight;
+        }
+        
+        // Override console.log to also display in status
+        const originalLog = console.log;
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            logStatus(args.join(' '));
+        };
+    </script>
+</body>
+</html>

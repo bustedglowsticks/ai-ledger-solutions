@@ -1,0 +1,22 @@
+{
+  "timestamp": "2025-07-17T06:58:11.760Z",
+  "environment": "testnet",
+  "wallet": "rDNzTGc9ierByqkARqqtr9DZ458KjsNiZn",
+  "metrics": {
+    "totalTrades": 6,
+    "successfulTrades": 0,
+    "totalVolume": 0,
+    "totalFees": 0,
+    "currentYield": -0.998,
+    "maxDrawdown": -0.998,
+    "startTime": "2025-07-17T06:57:17.699Z"
+  },
+  "config": {
+    "environment": "testnet",
+    "autoRebalance": true,
+    "quantumCLOB": true,
+    "grafanaAlerts": true,
+    "maxSlippage": 0.02,
+    "rebalanceThreshold": 0.05
+  }
+}

@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Asset Command Nexus</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/heatmap.js"></script>
+    <script src="https://code.highcharts.com/modules/treemap.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://unpkg.com/tailwindcss-cdn@3.4.0/tailwindcss.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.18.0/matter.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/heatmap.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Fortune 500 Elite Asset Command Nexus Styling */
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        body {
+            background: #0a0a0a;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .hedge-fund-container {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            min-height: 100vh;
+            padding: 20px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        .elite-card {
+            background: linear-gradient(145deg, #1e1e1e, #2a2a2a);
+            border: 1px solid #333333;
+            border-radius: 12px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .elite-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 12px 48px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+        
+        .bloomberg-header {
+            background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-bottom: 2px solid #0ea5e9;
+            padding: 16px 24px;
+            border-radius: 12px 12px 0 0;
+        }
+        
+        .palantir-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+        
+        .metric-card {
+            background: linear-gradient(145deg, #1a1a1a, #252525);
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #0ea5e9, #3b82f6);
+        }
+        
+        .elite-glow { 
+            box-shadow: 0 0 30px rgba(14, 165, 233, 0.4);
+        }
+        
+        .god-view-glow {
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
+            border: 2px solid #ffd700;
+        }
+        
+        .rocket-trail { 
+            animation: trail 2s ease-out infinite;
+        }
+        
+        @keyframes trail {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.5); }
+        }
+        
+        .commission-flow {
+            stroke: #0ea5e9;
+            stroke-width: 2;
+            fill: none;
+            filter: drop-shadow(0 0 4px rgba(14, 165, 233, 0.6));
+        }
+        
+        .eco-highlight {
+            border-left: 4px solid #22c55e;
+            background: linear-gradient(90deg, rgba(34, 197, 94, 0.1), transparent);
+        }
+        
+        .professional-button {
+            background: linear-gradient(145deg, #2563eb, #1d4ed8);
+            border: 1px solid #3b82f6;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .professional-button:hover {
+            background: linear-gradient(145deg, #1d4ed8, #1e40af);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+        }
+        
+        .professional-button.active {
+            background: linear-gradient(145deg, #0ea5e9, #0284c7);
+            box-shadow: 0 0 20px rgba(14, 165, 233, 0.5);
+        }
+        
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+        
+        .heat-map-container {
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #333;
+        }
+        
+        .neumorphic { 
+            box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.6), -8px -8px 16px rgba(255, 255, 255, 0.5);
+        }
+        
+        .heat-map-cell { 
+            cursor: pointer; 
+            transition: all 0.2s ease; 
+        }
+        
+        .heat-map-cell:hover { 
+            transform: scale(1.05); 
+            z-index: 10; 
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // Bot data for the dashboard
+        const botData = [
+            { id: 1, name: 'Alpha', yield: 12.5, commission: 2.8, volume: 1250000, risk: 'Medium', status: 'Active', x: 100, y: 80 },
+            { id: 2, name: 'Beta', yield: 8.3, commission: 1.9, volume: 980000, risk: 'Low', status: 'Active', x: 200, y: 120 },
+            { id: 3, name: 'Gamma', yield: 15.7, commission: 3.2, volume: 1850000, risk: 'High', status: 'Active', x: 300, y: 60 },
+            { id: 4, name: 'Delta', yield: 6.1, commission: 1.4, volume: 750000, risk: 'Low', status: 'Paused', x: 150, y: 180 },
+            { id: 5, name: 'Epsilon', yield: 11.2, commission: 2.5, volume: 1100000, risk: 'Medium', status: 'Active', x: 250, y: 140 },
+            { id: 6, name: 'Zeta', yield: 9.8, commission: 2.1, volume: 920000, risk: 'Low', status: 'Active', x: 180, y: 100 },
+            { id: 7, name: 'Eta', yield: 13.4, commission: 2.9, volume: 1400000, risk: 'Medium', status: 'Active', x: 320, y: 160 },
+            { id: 8, name: 'Theta', yield: 7.6, commission: 1.7, volume: 680000, risk: 'Low', status: 'Active', x: 120, y: 200 }
+        ]; 
+                                                : ''
+                                        }`}
+                                    >
+                                        {godView ? '👁️ God View ACTIVE' : '👁️ God View'}
+                                    </button>
+                                )}
+                                <button
+                                    onClick={handleLogout}
+                                    className="professional-button bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800"
+                                >
+                                    🚪 Logout
+                                </button>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* Fortune 500 Main Dashboard */}
+                    <main className="p-6">
+                        {/* Bloomberg-Style Metrics Grid */}
+                        <div className="data-grid mb-8">
+                            <div className="metric-card">
+                                <div className="flex items-center justify-between mb-2">
+                                    <span className="text-gray-400 text-sm font-medium">TOTAL YIELD</span>
+                                    <span className="text-2xl">💰</span>
+                                </div>
+                                <div className="text-3xl font-bold text-white mb-1">$127,450</div>
+                                <div className="text-green-400 text-sm font-medium">+15.2% ↗</div>
+                            </div>
+                            <div className="metric-card">
+                                <div className="flex items-center justify-between mb-2">
+                                    <span className="text-gray-400 text-sm font-medium">ACTIVE BOTS</span>
+                                    <span className="text-2xl">🤖</span>
+                                </div>
+                                <div className="text-3xl font-bold text-white mb-1">24</div>
+                                <div className="text-blue-400 text-sm font-medium">+3 new ↗</div>
+                            </div>
+                            <div className="metric-card">
+                                <div className="flex items-center justify-between mb-2">
+                                    <span className="text-gray-400 text-sm font-medium">COMMISSION FLOW</span>
+                                    <span className="text-2xl">🚀</span>
+                                </div>
+                                <div className="text-3xl font-bold text-white mb-1">$8,920</div>
+                                <div className="text-yellow-400 text-sm font-medium">+8.7% ↗</div>
+                            </div>
+                            <div className="metric-card eco-highlight">
+                                <div className="flex items-center justify-between mb-2">
+                                    <span className="text-gray-400 text-sm font-medium">ECO SCORE</span>
+                                    <span className="text-2xl">🌱</span>
+                                </div>
+                                <div className="text-3xl font-bold text-white mb-1">94%</div>
+                                <div className="text-green-400 text-sm font-medium">+2.1% ↗</div>
+                            </div>
+                        </div>
+
+                        {/* Professional View Toggle */}
+                        <div className="flex justify-center mb-6">
+                            <div className="elite-card p-1">
+                                <button
+                                    onClick={() => handleViewModeChange('2d')}
+                                    className={`professional-button mr-1 ${
+                                        viewMode === '2d' ? 'active' : ''
+                                    }`}
+                                >
+                                    📊 2D Heat Map
+                                </button>
+                                <button
+                                    onClick={() => handleViewModeChange('3d')}
+                                    className={`professional-button ${
+                                        viewMode === '3d' ? 'active' : ''
+                                    }`}
+                                >
+                                    🌌 3D Galaxy
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Main Visualization */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <div className="bg-white rounded-2xl shadow-xl p-6">
+                                <h3 className="text-xl font-semibold mb-4">Bot Performance Heat Map</h3>
+                                <EliteHeatMap viewMode={viewMode} godView={godView} onBotSelect={handleBotSelect} />
+                            </div>
+                            <div className="bg-white rounded-2xl shadow-xl p-6">
+                                <h3 className="text-xl font-semibold mb-4">Commission Flow Rockets</h3>
+                                <RocketCommissionFlow godView={godView} />
+                            </div>
+                        </div>
+
+                        {/* Bot Details */}
+                        {selectedBot && (
+                            <div className="mt-6 bg-white rounded-2xl shadow-xl p-6">
+                                <h3 className="text-xl font-semibold mb-4">Bot Details: {selectedBot.name}</h3>
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div className="text-center">
+                                        <div className="text-2xl font-bold text-green-600">{selectedBot.yield}</div>
+                                        <div className="text-gray-600">Current Yield</div>
+                                    </div>
+                                    <div className="text-center">
+                                        <div className="text-2xl font-bold text-blue-600">{selectedBot.volatility}</div>
+                                        <div className="text-gray-600">Volatility</div>
+                                    </div>
+                                    <div className="text-center">
+                                        <div className="text-2xl font-bold text-yellow-600">{selectedBot.ecoScore}</div>
+                                        <div className="text-gray-600">Eco Score</div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </main>
+                </div>
+            );
+        }
+
+        // Metric Card Component
+        function MetricCard({ title, value, change, icon, color }) {
+            const colorClasses = {
+                green: 'text-green-600',
+                blue: 'text-blue-600',
+                yellow: 'text-yellow-600',
+                red: 'text-red-600'
+            };
+
+            return (
+                <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+                    <div className="flex items-center justify-between mb-2">
+                        <span className="text-2xl">{icon}</span>
+                        <span className={`text-sm font-medium ${colorClasses[color]}`}>{change}</span>
+                    </div>
+                    <div className="text-2xl font-bold text-gray-900 mb-1">{value}</div>
+                    <div className="text-gray-600 text-sm">{title}</div>
+                </div>
+            );
+        }
+
+        // Advanced Analytics Popover Component
+        function AnalyticsPopover({ bot, isVisible, onClose, position }) {
+            if (!isVisible || !bot) return null;
+
+            const performanceScore = Math.round((bot.yield / 2) + (bot.uptime * 0.5) + ((1 - bot.risk) * 50));
+            const riskLevel = bot.risk < 0.15 ? 'Low' : bot.risk < 0.20 ? 'Medium' : 'High';
+            const riskColor = bot.risk < 0.15 ? 'text-green-400' : bot.risk < 0.20 ? 'text-yellow-400' : 'text-red-400';
+
+            return (
+                <div 
+                    className="fixed z-50 bg-gray-900 border border-gray-700 rounded-lg shadow-2xl p-4 min-w-80"
+                    style={{ 
+                        left: Math.min(position.x, window.innerWidth - 320),
+                        top: Math.min(position.y, window.innerHeight - 400),
+                        background: 'linear-gradient(135deg, rgba(17, 24, 39, 0.95) 0%, rgba(31, 41, 55, 0.95) 100%)'
+                    }}
+                >
+                    <div className="flex items-center justify-between mb-3">
+                        <h4 className="text-white font-bold text-lg flex items-center">
+                            <span className="mr-2">🤖</span>
+                            {bot.name}
+                        </h4>
+                        <button 
+                            onClick={onClose}
+                            className="text-gray-400 hover:text-white transition-colors"
+                        >
+                            ✕
+                        </button>
+                    </div>
+
+                    {/* Performance Score */}
+                    <div className="mb-4 p-3 bg-black bg-opacity-30 rounded-lg">
+                        <div className="flex items-center justify-between mb-2">
+                            <span className="text-gray-300 text-sm">Performance Score</span>
+                            <span className={`font-bold text-lg ${
+                                performanceScore > 80 ? 'text-green-400' : 
+                                performanceScore > 60 ? 'text-yellow-400' : 'text-red-400'
+                            }`}>
+                                {performanceScore}/100
+                            </span>
+                        </div>
+                        <div className="w-full bg-gray-700 rounded-full h-2">
+                            <div 
+                                className={`h-2 rounded-full transition-all duration-500 ${
+                                    performanceScore > 80 ? 'bg-green-400' : 
+                                    performanceScore > 60 ? 'bg-yellow-400' : 'bg-red-400'
+                                }`}
+                                style={{ width: `${performanceScore}%` }}
+                            ></div>
+                        </div>
+                    </div>
+
+                    {/* Key Metrics Grid */}
+                    <div className="grid grid-cols-2 gap-3 mb-4">
+                        <div className="bg-black bg-opacity-20 rounded-lg p-2">
+                            <div className="text-green-400 font-bold text-lg">${bot.yield.toFixed(1)}</div>
+                            <div className="text-gray-400 text-xs">Yield</div>
+                        </div>
+                        <div className="bg-black bg-opacity-20 rounded-lg p-2">
+                            <div className="text-blue-400 font-bold text-lg">{bot.commission}%</div>
+                            <div className="text-gray-400 text-xs">Commission</div>
+                        </div>
+                        <div className="bg-black bg-opacity-20 rounded-lg p-2">
+                            <div className="text-purple-400 font-bold text-lg">{bot.volume}K</div>
+                            <div className="text-gray-400 text-xs">Volume</div>
+                        </div>
+                        <div className="bg-black bg-opacity-20 rounded-lg p-2">
+                            <div className="text-yellow-400 font-bold text-lg">{bot.uptime}%</div>
+                            <div className="text-gray-400 text-xs">Uptime</div>
+                        </div>
+                    </div>
+
+                    {/* Risk Assessment */}
+                    <div className="mb-4 p-3 bg-black bg-opacity-30 rounded-lg">
+                        <div className="flex items-center justify-between mb-2">
+                            <span className="text-gray-300 text-sm">Risk Level</span>
+                            <span className={`font-bold ${riskColor}`}>{riskLevel}</span>
+                        </div>
+                        <div className="text-gray-400 text-xs">
+                            Risk Factor: {(bot.risk * 100).toFixed(1)}%
+                        </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex space-x-2">
+                        <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-3 rounded-lg text-sm font-medium transition-colors">
+                            📊 View Details
+                        </button>
+                        <button className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-3 rounded-lg text-sm font-medium transition-colors">
+                            ⚙️ Configure
+                        </button>
+                    </div>
+                </div>
+            );
+        }
+
+        // Advanced Highcharts Heat Map Component
+        function EliteHeatMap({ viewMode, godView, onBotSelect }) {
+            const chartRef = useRef();
+            const [selectedBot, setSelectedBot] = useState(null);
+            const [showPopover, setShowPopover] = useState(false);
+            const [popoverPosition, setPopoverPosition] = useState({ x: 0, y: 0 });
+
+            const mockBots = [
+                { id: 'bot-1', name: 'Alpha Surge', yield: 127.5, status: 'active', commission: 2.3, volume: 45.2, risk: 0.15, uptime: 99.2 },
+                { id: 'bot-2', name: 'Beta Flow', yield: 89.2, status: 'active', commission: 1.8, volume: 32.1, risk: 0.12, uptime: 98.7 },
+                { id: 'bot-3', name: 'Gamma Pulse', yield: 156.8, status: 'active', commission: 2.7, volume: 58.3, risk: 0.18, uptime: 99.5 },
+                { id: 'bot-4', name: 'Delta Wave', yield: 203.4, status: 'active', commission: 3.1, volume: 72.6, risk: 0.22, uptime: 98.9 },
+                { id: 'bot-5', name: 'Epsilon Core', yield: 178.9, status: 'active', commission: 2.9, volume: 61.4, risk: 0.19, uptime: 99.1 },
+                { id: 'bot-6', name: 'Zeta Prime', yield: 145.6, status: 'active', commission: 2.4, volume: 48.7, risk: 0.16, uptime: 98.8 },
+                { id: 'bot-7', name: 'Eta Nexus', yield: 192.3, status: 'active', commission: 3.2, volume: 67.9, risk: 0.21, uptime: 99.3 },
+                { id: 'bot-8', name: 'Theta Vortex', yield: 167.1, status: 'active', commission: 2.6, volume: 53.8, risk: 0.17, uptime: 99.0 }
+            ];
+
+            const handleBotClick = (bot) => {
+                console.log('Bot clicked:', bot);
+                if (onBotSelect) {
+                    onBotSelect(bot);
+                }
+            };
+
+            useEffect(() => {
+                if (!chartRef.current) return;
+
+                // Prepare data for Highcharts heatmap
+                const heatmapData = mockBots.map((bot, index) => {
+                    const x = index % 4; // 4 columns
+                    const y = Math.floor(index / 4); // 2 rows
+                    const value = godView ? bot.commission * 100 : bot.yield;
+                    
+                    return {
+                        x: x,
+                        y: y,
+                        value: value,
+                        bot: bot,
+                        color: godView ? '#ffd700' : (bot.yield > 150 ? '#22c55e' : bot.yield > 100 ? '#f59e0b' : '#ef4444')
+                    };
+                });
+
+                const chart = Highcharts.chart(chartRef.current, {
+                    chart: {
+                        type: 'heatmap',
+                        backgroundColor: 'transparent',
+                        height: 350,
+                        style: {
+                            fontFamily: 'Inter, sans-serif'
+                        }
+                    },
+                    title: {
+                        text: null
+                    },
+                    xAxis: {
+                        categories: ['Alpha', 'Beta', 'Gamma', 'Delta'],
+                        labels: {
+                            style: {
+                                color: '#9ca3af',
+                                fontSize: '12px'
+                            }
+                        },
+                        lineColor: '#374151',
+                        tickColor: '#374151'
+                    },
+                    yAxis: {
+                        categories: ['Tier 1', 'Tier 2'],
+                        labels: {
+                            style: {
+                                color: '#9ca3af',
+                                fontSize: '12px'
+                            }
+                        },
+                        lineColor: '#374151',
+                        tickColor: '#374151'
+                    },
+                    colorAxis: {
+                        min: 0,
+                        max: godView ? 320 : 250,
+                        stops: [
+                            [0, '#ef4444'],
+                            [0.5, '#f59e0b'],
+                            [1, '#22c55e']
+                        ]
+                    },
+                    legend: {
+                        itemStyle: {
+                            color: '#9ca3af'
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(17, 24, 39, 0.95)',
+                        borderColor: '#374151',
+                        style: {
+                            color: '#ffffff'
+                        },
+                        formatter: function() {
+                            const bot = this.point.bot;
+                            return `
+                                <div style="padding: 8px;">
+                                    <div style="font-weight: bold; color: #60a5fa; margin-bottom: 4px;">${bot.name}</div>
+                                    <div>💰 Yield: $${bot.yield.toFixed(1)}</div>
+                                    <div>🚀 Commission: ${bot.commission}%</div>
+                                    <div>📊 Volume: ${bot.volume}K</div>
+                                    <div>⚠️ Risk: ${(bot.risk * 100).toFixed(1)}%</div>
+                                    <div>⏱️ Uptime: ${bot.uptime}%</div>
+                                    <div style="margin-top: 4px; color: #22c55e;">Status: ${bot.status}</div>
+                                </div>
+                            `;
+                        },
+                        useHTML: true
+                    },
+                    series: [{
+                        name: 'Bot Performance',
+                        data: heatmapData,
+                        dataLabels: {
+                            enabled: true,
+                            color: '#ffffff',
+                            style: {
+                                textOutline: 'none',
+                                fontSize: '11px',
+                                fontWeight: 'bold'
+                            },
+                            formatter: function() {
+                                return this.point.bot.name.split(' ')[0];
+                            }
+                        },
+                        point: {
+                            events: {
+                                click: function(event) {
+                                    handleBotClick(this.bot);
+                                    setSelectedBot(this.bot);
+                                    setPopoverPosition({ 
+                                        x: event.chartX + chartRef.current.offsetLeft, 
+                                        y: event.chartY + chartRef.current.offsetTop 
+                                    });
+                                    setShowPopover(true);
+                                }
+                            }
+                        }
+                    }],
+                    credits: {
+                        enabled: false
+                    },
+                    exporting: {
+                        enabled: false
+                    }
+                });
+
+                return () => {
+                    if (chart) {
+                        chart.destroy();
+                    }
+                };
+            }, [viewMode, godView, onBotSelect]);
+
+            return (
+                <>
+                    <div className="elite-card w-full" style={{ minHeight: '500px' }}>
+                        <div className="p-4">
+                            <div className="flex items-center justify-between mb-4">
+                                <h3 className="text-white text-lg font-semibold flex items-center">
+                                    <span className="mr-2">📊</span>
+                                    Advanced Asset Performance Matrix
+                                </h3>
+                                <div className="flex items-center space-x-2">
+                                    <div className="text-xs text-gray-400">
+                                        {godView ? 'God View: Commission Focus' : 'Standard: Yield Focus'}
+                                    </div>
+                                    <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+                                </div>
+                            </div>
+                            <div ref={chartRef} className="w-full" style={{ height: '350px' }}></div>
+                            
+                            {/* Analytics Summary */}
+                            <div className="mt-4 grid grid-cols-3 gap-4 text-center">
+                                <div className="bg-black bg-opacity-30 rounded-lg p-3">
+                                    <div className="text-green-400 text-lg font-bold">${mockBots.reduce((sum, bot) => sum + bot.yield, 0).toFixed(0)}</div>
+                                    <div className="text-gray-400 text-xs">Total Yield</div>
+                                </div>
+                                <div className="bg-black bg-opacity-30 rounded-lg p-3">
+                                    <div className="text-blue-400 text-lg font-bold">{mockBots.reduce((sum, bot) => sum + bot.commission, 0).toFixed(1)}%</div>
+                                    <div className="text-gray-400 text-xs">Avg Commission</div>
+                                </div>
+                                <div className="bg-black bg-opacity-30 rounded-lg p-3">
+                                    <div className="text-yellow-400 text-lg font-bold">{(mockBots.reduce((sum, bot) => sum + bot.uptime, 0) / mockBots.length).toFixed(1)}%</div>
+                                    <div className="text-gray-400 text-xs">Avg Uptime</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {/* Advanced Analytics Popover */}
+                    <AnalyticsPopover 
+                        bot={selectedBot}
+                        isVisible={showPopover}
+                        onClose={() => setShowPopover(false)}
+                        position={popoverPosition}
+                    />
+                </>
+            );
+        }
+
+        // Master/Admin Control Panel Component
+        function MasterControlPanel({ onFilterChange, onExport, ecoMode, setEcoMode }) {
+            const [activeFilter, setActiveFilter] = useState('all');
+            const [exportFormat, setExportFormat] = useState('json');
+            const [isExporting, setIsExporting] = useState(false);
+
+            const filters = [
+                { id: 'all', name: 'All Bots', icon: '🤖', count: 8 },
+                { id: 'high-yield', name: 'High Yield', icon: '💰', count: 3 },
+                { id: 'eco-rwa', name: 'Eco-RWA', icon: '🌱', count: 2 },
+                { id: 'low-risk', name: 'Low Risk', icon: '🛡️', count: 4 },
+                { id: 'active', name: 'Active Now', icon: '⚡', count: 6 }
+            ];
+
+            const handleFilterChange = (filterId) => {
+                setActiveFilter(filterId);
+                onFilterChange(filterId);
+            };
+
+            const handleExport = async () => {
+                setIsExporting(true);
+                // Simulate export process
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                const data = {
+                    timestamp: new Date().toISOString(),
+                    format: exportFormat,
+                    totalBots: 8,
+                    totalYield: 2847,
+                    avgCommission: 2.6,
+                    ecoRwaHighlights: [
+                        { bot: 'Gamma', ecoScore: 95, rwaAllocation: '45%' },
+                        { bot: 'Epsilon', ecoScore: 88, rwaAllocation: '38%' }
+                    ]
+                };
+                
+                onExport(data, exportFormat);
+                setIsExporting(false);
+            };
+
+            return (
+                <div className="elite-card w-full mb-6">
+                    <div className="p-4">
+                        <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-white text-lg font-semibold flex items-center">
+                                <span className="mr-2">👑</span>
+                                Master Control Panel
+                            </h3>
+                            <div className="flex items-center space-x-2">
+                                <button
+                                    onClick={() => setEcoMode(!ecoMode)}
+                                    className={`px-3 py-1 text-xs rounded-lg transition-colors ${
+                                        ecoMode 
+                                            ? 'bg-green-600 hover:bg-green-700 text-white' 
+                                            : 'bg-gray-600 hover:bg-gray-700 text-white'
+                                    }`}
+                                >
+                                    {ecoMode ? '🌱 Eco Mode' : '🌱 Eco Off'}
+                                </button>
+                                <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+                            </div>
+                        </div>
+
+                        {/* Filter Tabs */}
+                        <div className="flex flex-wrap gap-2 mb-4">
+                            {filters.map(filter => (
+                                <button
+                                    key={filter.id}
+                                    onClick={() => handleFilterChange(filter.id)}
+                                    className={`px-3 py-2 rounded-lg text-xs font-medium transition-all flex items-center space-x-2 ${
+                                        activeFilter === filter.id
+                                            ? 'bg-blue-600 text-white shadow-lg'
+                                            : 'bg-black bg-opacity-30 text-gray-300 hover:bg-opacity-50'
+                                    }`}
+                                >
+                                    <span>{filter.icon}</span>
+                                    <span>{filter.name}</span>
+                                    <span className="bg-white bg-opacity-20 px-1 rounded">{filter.count}</span>
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* Export Controls */}
+                        <div className="flex items-center justify-between bg-black bg-opacity-20 rounded-lg p-3">
+                            <div className="flex items-center space-x-3">
+                                <span className="text-gray-400 text-sm">Export Format:</span>
+                                <select 
+                                    value={exportFormat}
+                                    onChange={(e) => setExportFormat(e.target.value)}
+                                    className="bg-gray-700 text-white px-2 py-1 rounded text-xs"
+                                >
+                                    <option value="json">JSON</option>
+                                    <option value="csv">CSV</option>
+                                    <option value="pdf">PDF Report</option>
+                                    <option value="excel">Excel</option>
+                                </select>
+                            </div>
+                            <button
+                                onClick={handleExport}
+                                disabled={isExporting}
+                                className="px-4 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 text-white text-xs rounded-lg transition-colors flex items-center space-x-2"
+                            >
+                                {isExporting ? (
+                                    <>
+                                        <div className="w-3 h-3 border border-white border-t-transparent rounded-full animate-spin"></div>
+                                        <span>Exporting...</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <span>📊</span>
+                                        <span>Export Data</span>
+                                    </>
+                                )}
+                            </button>
+                        </div>
+
+                        {/* Eco-RWA Highlights */}
+                        {ecoMode && (
+                            <div className="mt-4 bg-green-900 bg-opacity-30 rounded-lg p-3 border border-green-500 border-opacity-30">
+                                <h4 className="text-green-400 text-sm font-semibold mb-2 flex items-center">
+                                    <span className="mr-2">🌱</span>
+                                    Eco-RWA Sustainability Highlights
+                                </h4>
+                                <div className="grid grid-cols-2 gap-3 text-xs">
+                                    <div className="bg-black bg-opacity-20 rounded p-2">
+                                        <div className="text-green-400 font-bold">Carbon Neutral</div>
+                                        <div className="text-gray-300">2 bots verified</div>
+                                    </div>
+                                    <div className="bg-black bg-opacity-20 rounded p-2">
+                                        <div className="text-green-400 font-bold">RWA Allocation</div>
+                                        <div className="text-gray-300">41.5% avg</div>
+                                    </div>
+                                    <div className="bg-black bg-opacity-20 rounded p-2">
+                                        <div className="text-green-400 font-bold">ESG Score</div>
+                                        <div className="text-gray-300">91.5/100</div>
+                                    </div>
+                                    <div className="bg-black bg-opacity-20 rounded p-2">
+                                        <div className="text-green-400 font-bold">Green Yield</div>
+                                        <div className="text-gray-300">+12.3% premium</div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        // Advanced GSAP Commission Flow Component
+        function RocketCommissionFlow({ godView }) {
+            const containerRef = useRef();
+            const svgRef = useRef();
+            const [commissionEvents, setCommissionEvents] = useState([]);
+
+            // Bot positions matching the heat map layout
+            const botPositions = [
+                { id: 'bot-1', name: 'Alpha', x: 0.2, y: 0.3, commission: 2.3 },
+                { id: 'bot-2', name: 'Beta', x: 0.4, y: 0.5, commission: 1.8 },
+                { id: 'bot-3', name: 'Gamma', x: 0.6, y: 0.4, commission: 2.7 },
+                { id: 'bot-4', name: 'Delta', x: 0.3, y: 0.7, commission: 3.1 },
+                { id: 'bot-5', name: 'Epsilon', x: 0.7, y: 0.6, commission: 2.9 },
+                { id: 'bot-6', name: 'Zeta', x: 0.5, y: 0.8, commission: 2.4 },
+                { id: 'bot-7', name: 'Eta', x: 0.8, y: 0.5, commission: 3.2 },
+                { id: 'bot-8', name: 'Theta', x: 0.35, y: 0.2, commission: 2.6 }
+            ];
+
+            // Central wallet position
+            const walletPosition = { x: 0.5, y: 0.5 };
+
+            const triggerCommissionFlow = (botId) => {
+                const bot = botPositions.find(b => b.id === botId);
+                if (!bot || !svgRef.current) return;
+
+                const event = {
+                    id: Date.now(),
+                    bot: bot,
+                    timestamp: new Date(),
+                    amount: (Math.random() * 50 + 10).toFixed(2)
+                };
+
+                setCommissionEvents(prev => [...prev.slice(-4), event]);
+                animateCommissionFlow(bot, event);
+            };
+
+            const animateCommissionFlow = (bot, event) => {
+                if (!svgRef.current) return;
+
+                const svg = d3.select(svgRef.current);
+                const width = svgRef.current.clientWidth;
+                const height = svgRef.current.clientHeight;
+
+                // Calculate positions
+                const startX = bot.x * width;
+                const startY = bot.y * height;
+                const endX = walletPosition.x * width;
+                const endY = walletPosition.y * height;
+
+                // Create animated line
+                const line = svg.append('line')
+                    .attr('x1', startX)
+                    .attr('y1', startY)
+                    .attr('x2', startX)
+                    .attr('y2', startY)
+                    .attr('stroke', godView ? '#ffd700' : '#22c55e')
+                    .attr('stroke-width', 3)
+                    .attr('opacity', 0.8)
+                    .style('filter', 'drop-shadow(0 0 6px currentColor)');
+
+                // Create commission particle
+                const particle = svg.append('circle')
+                    .attr('cx', startX)
+                    .attr('cy', startY)
+                    .attr('r', 4)
+                    .attr('fill', godView ? '#ffd700' : '#22c55e')
+                    .attr('opacity', 0)
+                    .style('filter', 'drop-shadow(0 0 8px currentColor)');
+
+                // GSAP animation timeline
+                const tl = gsap.timeline();
+
+                // Animate line growth
+                tl.to(line.node(), {
+                    duration: 0.8,
+                    attr: { x2: endX, y2: endY },
+                    ease: 'power2.out'
+                })
+                // Animate particle movement
+                .to(particle.node(), {
+                    duration: 0.6,
+                    attr: { cx: endX, cy: endY },
+                    opacity: 1,
+                    ease: 'power2.inOut'
+                }, 0.2)
+                // Particle impact effect
+                .to(particle.node(), {
+                    duration: 0.3,
+                    attr: { r: 12 },
+                    opacity: 0,
+                    ease: 'power2.out'
+                }, 0.8)
+                // Line fade out
+                .to(line.node(), {
+                    duration: 0.5,
+                    opacity: 0,
+                    ease: 'power2.out'
+                }, 0.8)
+                // Cleanup
+                .call(() => {
+                    line.remove();
+                    particle.remove();
+                });
+
+                // Add glow pulse to wallet
+                const wallet = svg.select('.wallet-glow');
+                if (!wallet.empty()) {
+                    gsap.to(wallet.node(), {
+                        duration: 0.3,
+                        attr: { r: 25 },
+                        opacity: 0.6,
+                        ease: 'power2.out',
+                        yoyo: true,
+                        repeat: 1
+                    });
+                }
+            };
+
+            useEffect(() => {
+                if (!svgRef.current) return;
+
+                const svg = d3.select(svgRef.current);
+                svg.selectAll('*').remove();
+
+                const width = svgRef.current.clientWidth;
+                const height = svgRef.current.clientHeight;
+
+                // Draw bot nodes
+                botPositions.forEach(bot => {
+                    const botGroup = svg.append('g')
+                        .attr('class', 'bot-node')
+                        .attr('transform', `translate(${bot.x * width}, ${bot.y * height})`)
+                        .style('cursor', 'pointer')
+                        .on('click', () => triggerCommissionFlow(bot.id));
+
+                    // Bot circle
+                    botGroup.append('circle')
+                        .attr('r', 8)
+                        .attr('fill', godView ? '#ffd700' : '#60a5fa')
+                        .attr('stroke', '#ffffff')
+                        .attr('stroke-width', 2)
+                        .attr('opacity', 0.9)
+                        .style('filter', 'drop-shadow(0 0 4px currentColor)');
+
+                    // Bot label
+                    botGroup.append('text')
+                        .attr('text-anchor', 'middle')
+                        .attr('dy', '-12px')
+                        .attr('fill', '#ffffff')
+                        .attr('font-size', '10px')
+                        .attr('font-weight', 'bold')
+                        .text(bot.name);
+                });
+
+                // Draw central wallet
+                const walletGroup = svg.append('g')
+                    .attr('class', 'wallet-node')
+                    .attr('transform', `translate(${walletPosition.x * width}, ${walletPosition.y * height})`);
+
+                // Wallet glow effect
+                walletGroup.append('circle')
+                    .attr('class', 'wallet-glow')
+                    .attr('r', 15)
+                    .attr('fill', 'none')
+                    .attr('stroke', godView ? '#ffd700' : '#22c55e')
+                    .attr('stroke-width', 2)
+                    .attr('opacity', 0.3)
+                    .style('filter', 'blur(2px)');
+
+                // Wallet main circle
+                walletGroup.append('circle')
+                    .attr('r', 12)
+                    .attr('fill', godView ? '#ffd700' : '#22c55e')
+                    .attr('stroke', '#ffffff')
+                    .attr('stroke-width', 2)
+                    .style('filter', 'drop-shadow(0 0 8px currentColor)');
+
+                // Wallet icon
+                walletGroup.append('text')
+                    .attr('text-anchor', 'middle')
+                    .attr('dy', '4px')
+                    .attr('fill', '#000000')
+                    .attr('font-size', '12px')
+                    .attr('font-weight', 'bold')
+                    .text('💰');
+
+                // Auto-trigger random commission flows
+                const interval = setInterval(() => {
+                    if (Math.random() > 0.7) {
+                        const randomBot = botPositions[Math.floor(Math.random() * botPositions.length)];
+                        triggerCommissionFlow(randomBot.id);
+                    }
+                }, 2000);
+
+                return () => clearInterval(interval);
+            }, [godView]);
+
+            return (
+                <div className="elite-card w-full" style={{ minHeight: '450px' }}>
+                    <div className="p-4">
+                        <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-white text-lg font-semibold flex items-center">
+                                <span className="mr-2">🚀</span>
+                                Live Commission Flow Network
+                            </h3>
+                            <div className="flex items-center space-x-2">
+                                <button 
+                                    onClick={() => {
+                                        const randomBot = botPositions[Math.floor(Math.random() * botPositions.length)];
+                                        triggerCommissionFlow(randomBot.id);
+                                    }}
+                                    className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors"
+                                >
+                                    Trigger Flow
+                                </button>
+                                <div className="text-xs text-gray-400">Click bots or auto-flow</div>
+                            </div>
+                        </div>
+                        
+                        <div ref={containerRef} className="w-full" style={{ height: '300px' }}>
+                            <svg ref={svgRef} className="w-full h-full" style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '8px' }}></svg>
+                        </div>
+
+                        {/* Recent Commission Events */}
+                        <div className="mt-4">
+                            <h4 className="text-white text-sm font-semibold mb-2 flex items-center">
+                                <span className="mr-2">📊</span>
+                                Recent Commission Events
+                            </h4>
+                            <div className="space-y-1 max-h-20 overflow-y-auto">
+                                {commissionEvents.slice(-3).reverse().map(event => (
+                                    <div key={event.id} className="flex items-center justify-between text-xs bg-black bg-opacity-20 rounded px-2 py-1">
+                                        <span className="text-blue-400">{event.bot.name}</span>
+                                        <span className="text-green-400">${event.amount}</span>
+                                        <span className="text-gray-400">{event.timestamp.toLocaleTimeString()}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Main Dashboard Component with Master Control Panel
+        function EliteCommandNexus() {
+            const [viewMode, setViewMode] = useState('grid');
+            const [godView, setGodView] = useState(false);
+            const [selectedBot, setSelectedBot] = useState(null);
+            const [isLoading, setIsLoading] = useState(true);
+            const [activeFilter, setActiveFilter] = useState('all');
+            const [ecoMode, setEcoMode] = useState(false);
+
+            useEffect(() => {
+                // Simulate loading
+                setTimeout(() => setIsLoading(false), 1500);
+            }, []);
+
+            const handleBotSelect = (bot) => {
+                setSelectedBot(bot);
+            };
+
+            const handleFilterChange = (filterId) => {
+                setActiveFilter(filterId);
+                // Filter logic would be implemented here
+            };
+
+            const handleExport = (data, format) => {
+                // Create and download file
+                const filename = `elite-nexus-export-${Date.now()}.${format}`;
+                const content = format === 'json' ? JSON.stringify(data, null, 2) : data;
+                
+                const blob = new Blob([content], { 
+                    type: format === 'json' ? 'application/json' : 'text/plain' 
+                });
+                
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                // Show success notification
+                const notification = document.createElement('div');
+                notification.className = 'fixed top-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+                notification.textContent = `Export completed: ${filename}`;
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 3000);
+            };
+
+            if (isLoading) {
+                return (
+                    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 flex items-center justify-center">
+                        <div className="text-center">
+                            <div className="w-16 h-16 border-4 border-blue-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                            <div className="text-white text-xl font-semibold">Elite Asset Command Nexus</div>
+                            <div className="text-gray-400 text-sm mt-2">Initializing Phase 4 Master Controls...</div>
+                        </div>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
+                    {/* Header */}
+                    <header className="bg-black bg-opacity-50 backdrop-blur-sm border-b border-gray-700">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="flex items-center justify-between h-16">
+                                <div className="flex items-center space-x-4">
+                                    <div className="text-2xl font-bold text-white flex items-center">
+                                        <span className="mr-2">⚡</span>
+                                        Elite Asset Command Nexus
+                                    </div>
+                                    <div className="text-sm text-gray-400">Phase 4: Master Control</div>
+                                </div>
+                                <div className="flex items-center space-x-4">
+                                    <button
+                                        onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
+                                        className="px-3 py-1 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-lg transition-colors"
+                                    >
+                                        {viewMode === 'grid' ? '📋 List' : '⚏ Grid'}
+                                    </button>
+                                    <button
+                                        onClick={() => setGodView(!godView)}
+                                        className={`px-3 py-1 text-sm rounded-lg transition-colors ${
+                                            godView 
+                                                ? 'bg-yellow-600 hover:bg-yellow-700 text-white' 
+                                                : 'bg-gray-700 hover:bg-gray-600 text-white'
+                                        }`}
+                                    >
+                                        {godView ? '👁️ God View' : '👁️ Standard'}
+                                    </button>
+                                    <div className="flex items-center space-x-2">
+                                        <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+                                        <span className="text-green-400 text-sm">Live</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* Main Content */}
+                    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                        {/* Master Control Panel */}
+                        <MasterControlPanel 
+                            onFilterChange={handleFilterChange}
+                            onExport={handleExport}
+                            ecoMode={ecoMode}
+                            setEcoMode={setEcoMode}
+                        />
+
+                        {/* Dashboard Grid */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            {/* Heat Map */}
+                            <AdvancedHeatMap 
+                                viewMode={viewMode}
+                                godView={godView}
+                                onBotSelect={handleBotSelect}
+                            />
+
+                            {/* Commission Flow */}
+                            <RocketCommissionFlow godView={godView} />
+                        </div>
+
+                        {/* Performance Metrics */}
+                        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div className="elite-card">
+                                <div className="p-4">
+                                    <div className="flex items-center justify-between mb-2">
+                                        <h3 className="text-white text-sm font-semibold">Total Portfolio Value</h3>
+                                        <span className="text-green-400 text-xs">+12.3%</span>
+                                    </div>
+                                    <div className="text-2xl font-bold text-white mb-1">$2,847,392</div>
+                                    <div className="text-xs text-gray-400">24h change: +$312,847</div>
+                                </div>
+                            </div>
+                            
+                            <div className="elite-card">
+                                <div className="p-4">
+                                    <div className="flex items-center justify-between mb-2">
+                                        <h3 className="text-white text-sm font-semibold">Active Strategies</h3>
+                                        <span className="text-blue-400 text-xs">6/8 running</span>
+                                    </div>
+                                    <div className="text-2xl font-bold text-white mb-1">8</div>
+                                    <div className="text-xs text-gray-400">Avg uptime: 99.7%</div>
+                                </div>
+                            </div>
+                            
+                            <div className="elite-card">
+                                <div className="p-4">
+                                    <div className="flex items-center justify-between mb-2">
+                                        <h3 className="text-white text-sm font-semibold flex items-center">
+                                            {ecoMode && <span className="mr-1">🌱</span>}
+                                            Eco Impact Score
+                                        </h3>
+                                        <span className="text-green-400 text-xs">+5.2%</span>
+                                    </div>
+                                    <div className="text-2xl font-bold text-white mb-1">91.5/100</div>
+                                    <div className="text-xs text-gray-400">Carbon neutral: 2 bots</div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            );
+        }
+
+        // Render the app
+        ReactDOM.render(<EliteCommandNexus />, document.getElementById('root'));
+    </script>
+</body>
+</html>

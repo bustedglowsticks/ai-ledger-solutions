@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Quantum Bot Command Center - Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        body { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .bot-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .bot-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .rocket {
+            font-size: 2rem;
+            position: absolute;
+            z-index: 10;
+        }
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body class="min-h-screen p-6">
+    <!-- Header -->
+    <div class="glass-effect rounded-2xl p-6 mb-6">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+                    <span class="text-2xl">🚀</span>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-white">Quantum Bot Command Center</h1>
+                    <p class="text-purple-200">Ultra-Professional Admin Dashboard</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="text-right">
+                    <p class="text-white font-semibold">Master Admin</p>
+                    <p class="text-purple-200 text-sm">master@quantumbot.com</p>
+                </div>
+                <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
+                    <span class="text-white font-bold">M</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+        <div class="glass-effect rounded-xl p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-purple-200 text-sm">Total Bots</p>
+                    <p class="text-3xl font-bold text-white">12</p>
+                </div>
+                <div class="text-4xl">🤖</div>
+            </div>
+        </div>
+        <div class="glass-effect rounded-xl p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-purple-200 text-sm">Active Yield</p>
+                    <p class="text-3xl font-bold text-green-400">67.5%</p>
+                </div>
+                <div class="text-4xl">📈</div>
+            </div>
+        </div>
+        <div class="glass-effect rounded-xl p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-purple-200 text-sm">Commissions</p>
+                    <p class="text-3xl font-bold text-yellow-400">$7,500</p>
+                </div>
+                <div class="text-4xl">💰</div>
+            </div>
+        </div>
+        <div class="glass-effect rounded-xl p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-purple-200 text-sm">Network</p>
+                    <p class="text-3xl font-bold text-blue-400">XRPL</p>
+                </div>
+                <div class="text-4xl">🌐</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Heat Map -->
+        <div class="lg:col-span-2 glass-effect rounded-xl p-6">
+            <h2 class="text-xl font-bold text-white mb-4">🔥 Bot Performance Heat Map</h2>
+            <div id="heatmap" class="h-96 relative overflow-hidden rounded-lg bg-gray-900"></div>
+        </div>
+
+        <!-- Commission Flow -->
+        <div class="glass-effect rounded-xl p-6">
+            <h2 class="text-xl font-bold text-white mb-4">🚀 Commission Flow</h2>
+            <div id="commission-flow" class="h-96 relative overflow-hidden rounded-lg bg-gray-900">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center pulse">
+                        <span class="text-2xl">👑</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bot List -->
+    <div class="mt-6 glass-effect rounded-xl p-6">
+        <h2 class="text-xl font-bold text-white mb-4">🤖 Bot Portfolio</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="bot-list">
+            <!-- Bot cards will be generated here -->
+        </div>
+    </div>
+
+    <script>
+        // Sample bot data
+        const bots = [
+            { id: 1, name: 'Quantum Yield Nexus', yield: 67.5, volatility: 0.13, commissions: 2500, status: 'active' },
+            { id: 2, name: 'XRPL Royalty Engine', yield: 84.2, volatility: 0.08, commissions: 3200, status: 'active' },
+            { id: 3, name: 'DeFi Arbitrage Alpha', yield: 45.8, volatility: 0.22, commissions: 1800, status: 'active' },
+            { id: 4, name: 'Liquidity Harvester Pro', yield: 52.3, volatility: 0.15, commissions: 1200, status: 'active' },
+            { id: 5, name: 'Cross-Chain Optimizer', yield: 38.7, volatility: 0.18, commissions: 950, status: 'paused' },
+            { id: 6, name: 'AMM Pool Dominator', yield: 71.2, volatility: 0.11, commissions: 2800, status: 'active' }
+        ];
+
+        // Create heat map
+        function createHeatMap() {
+            const container = d3.select('#heatmap');
+            const width = 600;
+            const height = 350;
+
+            const svg = container.append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            const colorScale = d3.scaleSequential(d3.interpolateRdYlGn)
+                .domain([0, 100]);
+
+            const treemap = d3.treemap()
+                .size([width, height])
+                .padding(2);
+
+            const root = d3.hierarchy({ children: bots })
+                .sum(d => d.yield || 0);
+
+            treemap(root);
+
+            const leaf = svg.selectAll('g')
+                .data(root.leaves())
+                .enter().append('g')
+                .attr('transform', d => `translate(${d.x0},${d.y0})`);
+
+            leaf.append('rect')
+                .attr('width', d => d.x1 - d.x0)
+                .attr('height', d => d.y1 - d.y0)
+                .attr('fill', d => colorScale(d.data.yield))
+                .attr('stroke', '#fff')
+                .attr('stroke-width', 2)
+                .attr('rx', 8);
+
+            leaf.append('text')
+                .attr('x', 10)
+                .attr('y', 20)
+                .text(d => d.data.name)
+                .attr('font-size', '12px')
+                .attr('fill', '#fff')
+                .attr('font-weight', 'bold');
+
+            leaf.append('text')
+                .attr('x', 10)
+                .attr('y', 40)
+                .text(d => `${d.data.yield}% yield`)
+                .attr('font-size', '10px')
+                .attr('fill', '#fff');
+        }
+
+        // Create bot cards
+        function createBotCards() {
+            const container = document.getElementById('bot-list');
+            
+            bots.forEach(bot => {
+                const card = document.createElement('div');
+                card.className = 'bot-card glass-effect rounded-lg p-4';
+                
+                const statusColor = bot.status === 'active' ? 'bg-green-500' : 'bg-yellow-500';
+                
+                card.innerHTML = `
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-white font-semibold">${bot.name}</h3>
+                        <div class="w-3 h-3 ${statusColor} rounded-full"></div>
+                    </div>
+                    <div class="space-y-1">
+                        <div class="flex justify-between">
+                            <span class="text-purple-200 text-sm">Yield:</span>
+                            <span class="text-green-400 font-bold">${bot.yield}%</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-purple-200 text-sm">Volatility:</span>
+                            <span class="text-yellow-400">${(bot.volatility * 100).toFixed(1)}%</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-purple-200 text-sm">Commissions:</span>
+                            <span class="text-blue-400 font-bold">$${bot.commissions}</span>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+
+        // Animate rockets
+        function animateRockets() {
+            const flowContainer = document.getElementById('commission-flow');
+            
+            setInterval(() => {
+                const rocket = document.createElement('div');
+                rocket.className = 'rocket';
+                rocket.innerHTML = '🚀';
+                rocket.style.left = Math.random() * 200 + 'px';
+                rocket.style.top = Math.random() * 200 + 'px';
+                
+                flowContainer.appendChild(rocket);
+                
+                gsap.to(rocket, {
+                    x: 150,
+                    y: 150,
+                    duration: 2,
+                    ease: "power2.out",
+                    onComplete: () => {
+                        rocket.remove();
+                    }
+                });
+            }, 3000);
+        }
+
+        // Initialize dashboard
+        createHeatMap();
+        createBotCards();
+        animateRockets();
+
+        // Add some interactive effects
+        document.querySelectorAll('.bot-card').forEach(card => {
+            card.addEventListener('click', () => {
+                gsap.to(card, { scale: 0.95, duration: 0.1, yoyo: true, repeat: 1 });
+            });
+        });
+
+        console.log('🚀 Quantum Bot Command Center Demo Loaded!');
+        console.log('📊 Features: Heat Map, Commission Flow, Bot Portfolio');
+        console.log('🎯 Status: MongoDB Installing, Full Backend Ready Soon');
+    </script>
+</body>
+</html>

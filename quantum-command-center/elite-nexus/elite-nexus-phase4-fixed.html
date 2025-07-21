@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Asset Command Nexus - Phase 4</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/MotionPathPlugin.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/heatmap.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.15.0/dist/tf.min.js"></script>
+    <link rel="stylesheet" href="css/commission-styles.css">
+    <link rel="stylesheet" href="css/hedge-empire.css">
+    <script src="js/visualization-toggle.js"></script>
+    <script src="js/xrp-buy-timing-oracle.js"></script>
+    <script src="js/oracle-dashboard.js"></script>
+    <script src="js/oracle-simulation-runner.js"></script>
+    <script src="js/oracle-enhanced-parameters.js"></script>
+    <link rel="stylesheet" href="css/phase1-layout-polish.css">
+    <link rel="stylesheet" href="css/phase2-quantum-grid.css">
+    <script src="js/phase1-layout-manager.js"></script>
+    <script src="js/phase2-quantum-grid.js"></script>
+    <script src="js/phase2-integration.js"></script>
+    
+    <!-- Theme management script -->
+    <script>
+        // Register GSAP plugins
+        gsap.registerPlugin(MotionPathPlugin);
+    </script>
+        // Initialize theme from localStorage or default to Apple Minimal
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('eliteNexusTheme');
+            if (savedTheme === 'bloomberg') {
+                applyBloombergTheme();
+            } else {
+                applyAppleTheme(); // Default
+            }
+            
+            // Set up theme toggle button
+            setTimeout(() => {
+                const themeToggleBtn = document.getElementById('themeToggle');
+                if (themeToggleBtn) {
+                    themeToggleBtn.addEventListener('click', toggleTheme);
+                    applyButtonPulseAnimation(themeToggleBtn);
+                }
+                
+                // Apply pulse animations to all interactive buttons
+                const interactiveButtons = document.querySelectorAll('.interactive-button');
+                interactiveButtons.forEach(button => {
+                    applyButtonPulseAnimation(button);
+                });
+            }, 1000); // Delay to ensure React has rendered
+        });
+        
+        // Toggle between themes
+        function toggleTheme() {
+            const currentTheme = localStorage.getItem('eliteNexusTheme');
+            if (currentTheme === 'bloomberg') {
+                applyAppleTheme();
+            } else {
+                applyBloombergTheme();
+            }
+            
+            // Animate the theme change
+            animateThemeChange();
+        }
+        
+        // Apply Apple Minimal theme
+        function applyAppleTheme() {
+            document.body.classList.remove('theme-bloomberg');
+            localStorage.setItem('eliteNexusTheme', 'apple');
+            
+            const toggleText = document.querySelector('.toggle-text');
+            if (toggleText) {
+                toggleText.textContent = 'Apple Minimal';
+            }
+            
+            const toggleIcon = document.querySelector('.toggle-icon');
+            if (toggleIcon) {
+                toggleIcon.classList.remove('bloomberg-icon');
+                toggleIcon.classList.add('apple-icon');
+            }
+        }
+        
+        // Apply Bloomberg Dark theme
+        function applyBloombergTheme() {
+            document.body.classList.add('theme-bloomberg');
+            localStorage.setItem('eliteNexusTheme', 'bloomberg');
+            
+            const toggleText = document.querySelector('.toggle-text');
+            if (toggleText) {
+                toggleText.textContent = 'Bloomberg Dark';
+            }
+            
+            const toggleIcon = document.querySelector('.toggle-icon');
+            if (toggleIcon) {
+                toggleIcon.classList.remove('apple-icon');
+                toggleIcon.classList.add('bloomberg-icon');
+            }
+        }
+        
+        // GSAP animation for theme change
+        function animateThemeChange() {
+            gsap.to('body', {
+                duration: 0.5,
+                opacity: 0.8,
+                ease: 'power2.out',
+                onComplete: () => {
+                    gsap.to('body', {
+                        duration: 0.5,
+                        opacity: 1,
+                        ease: 'power2.in'
+                    });
+                }
+            });
+            
+            // Animate cards
+            gsap.from('.card', {
+                duration: 0.6,
+                y: 15,
+                opacity: 0.6,
+                stagger: 0.1,
+                ease: 'back.out(1.4)'
+            });
+        }
+        
+        // Apply GSAP pulse animation to buttons
+        function applyButtonPulseAnimation(button) {
+            // Create hover effect
+            button.addEventListener('mouseenter', () => {
+                gsap.to(button, {
+                    scale: 1.05,
+                    duration: 0.3,
+                    ease: 'power2.out',
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)'
+                });
+            });
+            
+            button.addEventListener('mouseleave', () => {
+                gsap.to(button, {
+                    scale: 1,
+                    duration: 0.3,
+                    ease: 'power2.in',
+                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+                });
+            });
+            
+            // Add subtle pulse animation
+            const timeline = gsap.timeline({ repeat: -1, repeatDelay: 3 });
+            timeline.to(button, {
+                scale: 1.03,
+                duration: 0.6,
+                ease: 'power2.inOut'
+            }).to(button, {
+                scale: 1,
+                duration: 0.6,
+                ease: 'power2.inOut'
+            });
+        }
+    </script>
+    
+    <!-- Load commission flow module -->
+    <script src="js/commission-flow.js"></script>
+    
+    <!-- React Components -->
+    <script type="text/babel">
+        // Commission Flow Component
+        function CommissionFlow({ godView }) {
+            const [flowActive, setFlowActive] = React.useState(false);
+            const containerRef = React.useRef(null);
+            
+            // Bot and wallet positions
+            const bots = [
+                { id: 'bot1', name: 'Quantum Harvester', x: 60, y: 100 },
+                { id: 'bot2', name: 'NexGen Alpha', x: 80, y: 200 },
+                { id: 'bot3', name: 'Hyper Yield', x: 100, y: 300 },
+                { id: 'bot4', name: 'Prime Collector', x: 120, y: 400 },
+            ];
+            
+            const wallets = [
+                { id: 'wallet1', name: 'Master Wallet', x: 400, y: 200 },
+                { id: 'wallet2', name: 'Reserve Vault', x: 380, y: 350 }
+            ];
+            
+            // Generate random commission event
+            const generateCommission = () => {
+                if (!containerRef.current) return;
+                
+                // Get container bounds for relative positioning
+                const bounds = containerRef.current.getBoundingClientRect();
+                
+                // Select random bot and wallet
+                const bot = bots[Math.floor(Math.random() * bots.length)];
+                const wallet = wallets[Math.floor(Math.random() * wallets.length)];
+                
+                // Random commission amount
+                const amount = (Math.random() * 500 + 100).toFixed(2);
+                
+                // Calculate absolute positions relative to the page
+                const fromPos = {
+                    x: bot.x + bounds.left,
+                    y: bot.y + bounds.top
+                };
+                
+                const toPos = {
+                    x: wallet.x + bounds.left,
+                    y: wallet.y + bounds.top
+                };
+                
+                // Animate commission
+                animateCommission(fromPos, toPos, amount, bot.name);
+            };
+            
+            // Start/stop commission flow
+            const toggleFlow = () => {
+                setFlowActive(!flowActive);
+            };
+            
+            // Generate commissions periodically when active
+            React.useEffect(() => {
+                let interval;
+                if (flowActive) {
+                    // Initial commission
+                    setTimeout(generateCommission, 500);
+                    
+                    // Regular commissions
+                    interval = setInterval(() => {
+                        generateCommission();
+                    }, 3000);
+                }
+                
+                return () => {
+                    if (interval) clearInterval(interval);
+                };
+            }, [flowActive]);
+            
+            return (
+                <div className="elite-card h-full relative overflow-hidden" ref={containerRef}>
+                    <div className="p-4 border-b border-gray-700 flex justify-between items-center">
+                        <h2 className="text-lg font-semibold flex items-center">
+                            <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+                            </svg>
+                            Commission Flow
+                            {godView && <span className="ml-2 text-xs px-2 py-1 bg-purple-500 rounded-full">God View</span>}
+                        </h2>
+                        <button 
+                            onClick={toggleFlow} 
+                            className={`interactive-button px-3 py-1 rounded-md text-sm ${flowActive ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-700 hover:bg-gray-600'}`}
+                        >
+                            {flowActive ? 'Running' : 'Start Flow'}
+                        </button>
+                    </div>
+                    
+                    <div className="p-4 h-[400px] relative">
+                        {/* Bots */}
+                        {bots.map(bot => (
+                            <div key={bot.id} className="absolute" style={{left: `${bot.x}px`, top: `${bot.y}px`}}>
+                                <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center cursor-pointer hover:scale-110 transition-transform">
+                                    <span className="text-xs font-bold">B</span>
+                                </div>
+                                <div className="text-xs mt-1 whitespace-nowrap">{bot.name}</div>
+                            </div>
+                        ))}
+                        
+                        {/* Wallets */}
+                        {wallets.map(wallet => (
+                            <div key={wallet.id} className="absolute" style={{left: `${wallet.x}px`, top: `${wallet.y}px`}}>
+                                <div className="w-10 h-10 rounded-md bg-green-600 flex items-center justify-center cursor-pointer hover:scale-110 transition-transform">
+                                    <span className="text-xs font-bold">W</span>
+                                </div>
+                                <div className="text-xs mt-1 whitespace-nowrap">{wallet.name}</div>
+                            </div>
+                        ))}
+                        
+                        {/* Instructions when not active */}
+                        {!flowActive && (
+                            <div className="absolute inset-0 flex items-center justify-center">
+                                <div className="text-center max-w-xs">
+                                    <svg className="mx-auto w-12 h-12 text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2-1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path>
+                                    </svg>
+                                    <p className="text-gray-500">Click "Start Flow" to visualize commission transfers</p>
+                                    <p className="text-xs text-gray-400 mt-2">Animated paths show commission flow from bots to wallets. Click on a path to see transaction details.</p>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+        
+        // Main Dashboard Component
+        function EliteCommandNexus() {
+            const [viewMode, setViewMode] = React.useState('grid');
+            const [godView, setGodView] = React.useState(false);
+            const [selectedBot, setSelectedBot] = React.useState(null);
+            const [visualizationMode, setVisualizationMode] = React.useState('2d'); // 2d or 3d mode
+            const [isLoading, setIsLoading] = React.useState(true);
+            const [activeFilter, setActiveFilter] = React.useState('all');
+            const [ecoMode, setEcoMode] = React.useState(false);
+
+            React.useEffect(() => {
+                setTimeout(() => setIsLoading(false), 1500);
+            }, []);
+
+            const handleBotSelect = (bot) => {
+                setSelectedBot(bot);
+            };
+
+            const handleFilterChange = (filterId) => {
+                setActiveFilter(filterId);
+            };
+
+            const handleExport = (data, format) => {
+                const filename = `elite-nexus-export-${Date.now()}.${format}`;
+                const content = format === 'json' ? JSON.stringify(data, null, 2) : data;
+                
+                const blob = new Blob([content], { 
+                    type: format === 'json' ? 'application/json' : 'text/plain' 
+                });
+                
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                // Show notification
+                const notification = document.createElement('div');
+                notification.className = 'fixed top-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+                notification.textContent = `Export completed: ${filename}`;
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 3000);
+            };
+
+            if (isLoading) {
+                return (
+                    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 flex items-center justify-center">
+                        <div className="text-center">
+                            <div className="w-16 h-16 border-4 border-blue-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                            <div className="text-white text-xl font-semibold">Elite Asset Command Nexus</div>
+                            <div className="text-gray-400 text-sm mt-2">Initializing Phase 4 Master Controls...</div>
+                        </div>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
+                    {/* Header */}
+                    <header className="bg-black bg-opacity-50 backdrop-blur-sm border-b border-gray-700">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="flex items-center justify-between h-16">
+                                <div className="flex items-center space-x-4">
+                                    <div className="text-2xl font-bold text-white flex items-center">
+                                        <span className="mr-2">⚡</span>
+                                        Elite Asset Command Nexus
+                                    </div>
+                                    <div className="text-sm text-gray-400">Phase 4: Master Control</div>
+                                </div>
+                                <div className="flex items-center space-x-4">
+                                    <button
+                                        onClick="setViewMode(viewMode === 'grid' ? 'list' : 'grid')"
+                                        className="interactive-btn px-3 py-1 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-lg transition-colors"
+                                    >
+                                        {viewMode === 'grid' ? '📋 List' : '⚏ Grid'}
+                                    </button>
+                                    <button
+                                        onClick="setGodView(!godView)"
+                                        className={`interactive-btn px-3 py-1 text-sm rounded-lg transition-colors ` + (godView ? 'bg-yellow-600 hover:bg-yellow-700 text-white god-view-glow' : 'bg-gray-700 hover:bg-gray-600 text-white')}
+                                    >
+                                        {godView ? '👁️ God View' : '👁️ Standard'}
+                                    </button>
+                                    <button
+                                        onClick="setVisualizationMode(visualizationMode === '2d' ? '3d' : '2d')"
+                                        className="interactive-btn px-3 py-1 text-sm rounded-lg transition-colors " + (visualizationMode === '3d' ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-gray-700 hover:bg-gray-600 text-white')
+                                    >
+                                        {visualizationMode === '3d' ? '🔮 3D View' : '📊 2D View'}
+                                    </button>
+                                    <div className="flex items-center space-x-2">
+                                        <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+                                        <span className="text-green-400 text-sm">Live</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* Main Content */}
+                    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                        {/* Master Control Panel */}
+                        <MasterControlPanel 
+                            onFilterChange={handleFilterChange}
+                            onExport={handleExport}
+                            ecoMode={ecoMode}
+                            setEcoMode={setEcoMode}
+                        />
+
+                        {/* Dashboard Grid */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <AdvancedHeatMap 
+                                viewMode={viewMode}
+                                godView={godView}
+                                onBotSelect={handleBotSelect}
+                            />
+                            <CommissionFlow godView={godView} />
+                        </div>
+
+                        {/* Performance Metrics */}
+                        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div className="elite-card">
+                                <div className="p-4">
+                                    <div className="flex items-center justify-between mb-2">
+                                        <h3 className="text-white text-sm font-semibold">Total Portfolio Value</h3>
+                                        <span className="text-green-400 text-xs">+12.3%</span>
+                                    </div>
+                                    <div className="text-2xl font-bold text-white mb-1">$2,847,392</div>
+                                    <div className="text-xs text-gray-400">24h change: +$312,847</div>
+                                </div>
+                            </div>
+                            
+                            <div className="elite-card">
+                                <div className="p-4">
+                                    <div className="flex items-center justify-between mb-2">
+                                        <h3 className="text-white text-sm font-semibold">Active Strategies</h3>
+                                        <span className="text-blue-400 text-xs">6/8 running</span>
+                                    </div>
+                                    <div className="text-2xl font-bold text-white mb-1">8</div>
+                                    <div className="text-xs text-gray-400">Avg uptime: 99.7%</div>
+                                </div>
+                            </div>
+                            
+                            <div className="elite-card">
+                                <div className="p-4">
+                                    <div className="flex items-center justify-between mb-2">
+                                        <h3 className="text-white text-sm font-semibold flex items-center">
+                                            {ecoMode && <span className="mr-1">🌱</span>}
+                                            Eco Impact Score
+                                        </h3>
+                                        <span className="text-green-400 text-xs">+5.2%</span>
+                                    </div>
+                                    <div className="text-2xl font-bold text-white mb-1">91.5/100</div>
+                                    <div className="text-xs text-gray-400">Carbon neutral: 2 bots</div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            );
+        }
+
+        // Render the app
+        ReactDOM.render(<EliteCommandNexus />, document.getElementById('root'));
+    </script>
+    <style>
+        /* Theme Variables */
+        :root {
+            /* Apple Minimal Theme (Light) - Default */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f7;
+            --bg-card: #ffffff;
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --border-color: #d2d2d7;
+            --accent-primary: #0071e3;
+            --accent-secondary: #2997ff;
+            --button-bg: #f5f5f7;
+            --button-text: #1d1d1f;
+            --chart-bg: rgba(245, 245, 247, 0.7);
+            --tooltip-bg: rgba(255, 255, 255, 0.95);
+            --tooltip-border: #e6e6e6;
+            --header-bg: rgba(255, 255, 255, 0.8);
+            --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --eco-highlight: #63c77b;
+        }
+        
+        /* Bloomberg Dark Theme */
+        .theme-bloomberg {
+            --bg-primary: #121212;
+            --bg-secondary: #1e1e1e;
+            --bg-card: #252525;
+            --text-primary: #f0f0f0;
+            --text-secondary: #a0a0a0;
+            --border-color: #333333;
+            --accent-primary: #ff9900;
+            --accent-secondary: #ffb74d;
+            --button-bg: #333333;
+            --button-text: #f0f0f0;
+            --chart-bg: rgba(30, 30, 30, 0.7);
+            --tooltip-bg: rgba(25, 25, 25, 0.95);
+            --tooltip-border: #444444;
+            --header-bg: rgba(18, 18, 18, 0.9);
+            --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            --eco-highlight: #00b894;
+        }
+        
+        /* Global styles */
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .elite-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            backdrop-filter: blur(10px);
+        }
+        
+        .elite-glow {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+        }
+        
+        .god-view-glow {
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.6);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        .heat-map-cell {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .heat-map-cell:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+        
+        .interactive-btn {
+            transition: all 0.2s ease;
+            transform: scale(1);
+        }
+        
+        .interactive-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .interactive-btn:active {
+            transform: scale(0.98);
+        }
+        
+        .filter-active {
+            animation: filterPulse 0.3s ease;
+        }
+        
+        @keyframes filterPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* AI Tooltip Styles - Overlord Edition Phase 1 */
+        .ai-tooltip {
+            position: absolute;
+            padding: 16px;
+            background-color: var(--tooltip-bg);
+            border: 1px solid var(--tooltip-border);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            min-width: 280px;
+            pointer-events: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .ai-tooltip.show {
+            opacity: 1;
+            pointer-events: all;
+            transform: translateY(0);
+        }
+        
+        .ai-tooltip::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 8px solid var(--tooltip-border);
+        }
+        
+        .tooltip-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .tooltip-icon {
+            width: 24px;
+            height: 24px;
+            background-color: var(--accent-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+            font-size: 12px;
+        }
+        
+        .tooltip-title {
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+        
+        .tooltip-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .metric-item {
+            background-color: rgba(0, 0, 0, 0.1);
+            padding: 8px;
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-primary);
+        }
+        
+        .metric-label {
+            font-size: 10px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        
+        .metric-value {
+            font-size: 14px;
+            font-weight: 500;
+        .forecast-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent-primary);
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+        
+        .mini-chart {
+            width: 100%;
+            height: 40px;
+            margin-top: 8px;
+            background-color: var(--chart-bg);
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .chart-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            animation: chartPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes chartPulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        
+        /* Enhanced heat map colors for better yield visualization */
+        .heat-cell-low { background: linear-gradient(45deg, #1e293b, #334155); }
+        .heat-cell-medium { background: linear-gradient(45deg, #0f766e, #14b8a6); }
+        .heat-cell-high { background: linear-gradient(45deg, #166534, #22c55e); }
+        .heat-cell-ultra { background: linear-gradient(45deg, #365314, #84cc16); }
+        
+        /* Header styles */
+        header {
+            background-color: var(--header-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .header-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .theme-toggle {
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .theme-toggle:hover {
+            background-color: var(--accent-primary);
+            color: white;
+        }
+        
+        /* Commission animation styles - Refined 2D Paths */
+        .commission-line {
+            position: absolute;
+            stroke: #00d4ff;
+            stroke-width: 2;
+            fill: none;
+            filter: drop-shadow(0 0 3px #00d4ff);
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            z-index: 1000;
+            pointer-events: all;
+            cursor: pointer;
+        }
+        
+        .commission-particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: linear-gradient(135deg, #00d4ff, #00ff88);
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff;
+            z-index: 1001;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .commission-burst {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: radial-gradient(circle, rgba(0,255,136,0.8) 0%, rgba(0,212,255,0) 70%);
+            border-radius: 50%;
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        /* Wallet popup styles */
+        .wallet-popup {
+            position: absolute;
+            background: var(--tooltip-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            min-width: 300px;
+            box-shadow: var(--card-shadow);
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(10px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+            
+            .wallet-popup.visible {
+                opacity: 1;
+                pointer-events: all;
+                transform: translateY(0);
+            }
+            
+            .wallet-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 12px;
+                padding-bottom: 8px;
+                border-bottom: 1px solid var(--border-color);
+            }
+            
+            .wallet-title {
+                font-weight: 600;
+                color: var(--accent-primary);
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            
+            .close-wallet {
+                cursor: pointer;
+                color: var(--text-secondary);
+            }
+            
+            .transaction-list {
+                max-height: 200px;
+                overflow-y: auto;
+                margin-bottom: 12px;
+            }
+            
+            .transaction-item {
+                padding: 8px;
+                border-radius: 6px;
+                margin-bottom: 6px;
+                background: var(--bg-secondary);
+                font-size: 12px;
+            }
+            
+            .transaction-row {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 4px;
+            }
+            
+            .transaction-label {
+                color: var(--text-secondary);
+                font-size: 11px;
+            }
+            
+            .transaction-value {
+                font-weight: 500;
+            }
+            
+            .commission-timeline {
+                height: 50px;
+                background: var(--bg-secondary);
+                border-radius: 6px;
+                position: relative;
+                margin-top: 8px;
+                padding: 8px;
+            }
+            
+            .timeline-marker {
+                position: absolute;
+                width: 10px;
+                height: 10px;
+                background: var(--accent-primary);
+                border-radius: 50%;
+                transform: translateY(-50%);
+                top: 50%;
+            }
+            
+            .timeline-label {
+                position: absolute;
+                font-size: 10px;
+                color: var(--text-secondary);
+                top: 60%;
+                transform: translateX(-50%);
+            }
+        </style>
+        
+        <!-- Commission Flow JavaScript -->
+        <script>
+            function animateCommission(fromPos, toPos, amount, botName) {
+                const svgContainer = document.createElement('div');
+                svgContainer.style.position = 'absolute';
+                svgContainer.style.top = '0';
+                svgContainer.style.left = '0';
+                svgContainer.style.width = '100%';
+                svgContainer.style.height = '100%';
+                svgContainer.style.pointerEvents = 'none';
+                svgContainer.style.zIndex = '1000';
+                svgContainer.id = 'commission-svg-container';
+                
+                // Check if container already exists
+                const existingContainer = document.getElementById('commission-svg-container');
+                if (!existingContainer) {
+                    document.body.appendChild(svgContainer);
+                }
+                
+                // Create SVG for the path
+                const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                svg.setAttribute('width', '100%');
+                svg.setAttribute('height', '100%');
+                svg.style.position = 'absolute';
+                svg.style.top = '0';
+                svg.style.left = '0';
+                svg.style.pointerEvents = 'none';
+                
+                // Calculate control point for curved path (arc upward)
+                const controlX = (fromPos.x + toPos.x) / 2;
+                const controlY = Math.min(fromPos.y, toPos.y) - 100 - Math.random() * 50;
+                
+                // Create path element
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                path.setAttribute('d', `M ${fromPos.x},${fromPos.y} Q ${controlX},${controlY} ${toPos.x},${toPos.y}`);
+                path.classList.add('commission-line');
+                path.setAttribute('data-amount', amount);
+                path.setAttribute('data-bot', botName);
+                path.setAttribute('data-from-x', fromPos.x);
+                path.setAttribute('data-from-y', fromPos.y);
+                path.setAttribute('data-to-x', toPos.x);
+                path.setAttribute('data-to-y', toPos.y);
+                path.style.pointerEvents = 'auto';
+                path.style.cursor = 'pointer';
+                
+                // Add click handler for wallet popup
+                path.addEventListener('click', (e) => {
+                    showWalletPopup(toPos.x, toPos.y, amount, botName);
+                    e.stopPropagation();
+                });
+                
+                svg.appendChild(path);
+                svgContainer.appendChild(svg);
+                
+                // Animate the path drawing
+                gsap.to(path, {
+                    strokeDashoffset: 0,
+                    duration: 2,
+                    ease: 'power2.out',
+                    onComplete: () => {
+                        // Create burst at destination
+                        createCommissionBurst(toPos.x, toPos.y);
+                        
+                        // Animate particles along the path
+                        animateParticlesAlongPath(path, 5);
+                        
+                        // Fade out path after a while
+                        gsap.to(path, {
+                            opacity: 0.3,
+                            duration: 5,
+                            delay: 3
+                        });
+                    }
+                });
+            }
+            
+            // Create and animate commission burst effect
+            function createCommissionBurst(x, y) {
+                const burst = document.createElement('div');
+                burst.className = 'commission-burst';
+                document.body.appendChild(burst);
+                
+                gsap.set(burst, {
+                    left: x - 12,
+                    top: y - 12,
+                    scale: 0.5,
+                    opacity: 0
+                });
+                
+                gsap.to(burst, {
+                    duration: 0.5,
+                    scale: 2,
+                    opacity: 0.8,
+                    ease: 'power2.out',
+                    onComplete: () => {
+                        gsap.to(burst, {
+                            duration: 0.5,
+                            scale: 3,
+                            opacity: 0,
+                            ease: 'power2.in',
+                            onComplete: () => {
+                                document.body.removeChild(burst);
+                            }
+                        });
+                    }
+                });
+                
+                // Log the commission event
+                console.log(`Commission Landed - $${(Math.random() * 500 + 100).toFixed(2)} In!`);
+            }
+            
+            // Animate particles along the path
+            function animateParticlesAlongPath(path, count) {
+                const pathLength = path.getTotalLength();
+                
+                for (let i = 0; i < count; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'commission-particle';
+                    document.body.appendChild(particle);
+                    
+                    // Random delay for each particle
+                    const delay = i * 0.2 + Math.random() * 0.3;
+                    
+                    gsap.set(particle, { opacity: 0 });
+                    
+                    gsap.to(particle, {
+                        duration: 2,
+                        delay: delay,
+                        ease: 'none',
+                        motionPath: {
+                            path: path,
+                            align: path,
+                            alignOrigin: [0.5, 0.5]
+                        },
+                        opacity: 1,
+                        onStart: () => {
+                            gsap.to(particle, { opacity: 1, duration: 0.2 });
+                        },
+                        onComplete: () => {
+                            gsap.to(particle, {
+                                opacity: 0,
+                                duration: 0.2,
+                                onComplete: () => {
+                                    document.body.removeChild(particle);
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+            
+            // Show wallet popup with transaction details
+            function showWalletPopup(x, y, amount, botName) {
+                // Close any existing popup
+                const existing = document.querySelector('.wallet-popup');
+                if (existing) {
+                    document.body.removeChild(existing);
+                }
+                
+                // Create wallet popup
+                const popup = document.createElement('div');
+                popup.className = 'wallet-popup';
+                document.body.appendChild(popup);
+                
+                // Set position near the endpoint
+                gsap.set(popup, {
+                    left: x + 20,
+                    top: y - 100,
+                    opacity: 0,
+                    transformOrigin: 'top left'
+                });
+                
+                // Generate mock XRPL transactions
+                const txCount = 3 + Math.floor(Math.random() * 3); // 3-5 transactions
+                const transactions = [];
+                
+                for (let i = 0; i < txCount; i++) {
+                    const txType = i === 0 ? 'Commission Payment' : ['Payment', 'TrustSet', 'OfferCreate'][Math.floor(Math.random() * 3)];
+                    const txAmount = i === 0 ? amount : (Math.random() * 1000 + 100).toFixed(2);
+                    
+                    transactions.push({
+                        type: txType,
+                        amount: txAmount,
+                        from: i === 0 ? botName : `r${generateRandomHash(24)}`,
+                        to: `r${generateRandomHash(24)}`,
+                        time: new Date(Date.now() - i * 60000 * (Math.random() * 10 + 1)).toLocaleTimeString(),
+                        status: 'Validated',
+                        ledgerIndex: 8000000 + Math.floor(Math.random() * 10000)
+                    });
+                }
+                
+                // Create popup content
+                popup.innerHTML = `
+                    <div class="wallet-header">
+                        <div class="wallet-title">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--accent-primary)">
+                                <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 5.52 4.48 10 10 10s10-4.48 10-10zm-10 6c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm0-10c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/>
+                            const randomBot = botData[Math.floor(Math.random() * botData.length)];
+                            triggerCommissionFlow(randomBot.id);
+                        }, 3000);
+
+                return () => clearInterval(interval);
+            }, []);
+
+            return (
+                <div className="elite-card">
+                    <div className="p-4">
+                        <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-white text-lg font-semibold flex items-center">
+                                <span className="mr-2">🚀</span>
+                                Live Commission Flow
+                            </h3>
+                            <button 
+                                onClick={() => {
+                                    const randomBot = botData[Math.floor(Math.random() * botData.length)];
+                                    triggerCommissionFlow(randomBot.id);
+                                }}
+                                className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors"
+                            >
+                                Trigger Flow
+                            </button>
+                        </div>
+                        
+                        <div className="w-full" style={{ height: '300px' }}>
+                            <svg ref={svgRef} className="w-full h-full" style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '8px' }}>
+                                {/* Bot positions */}
+                                {botData.map(bot => (
+                                    <circle
+                                        key={bot.id}
+                                        cx={bot.x}
+                                        cy={bot.y}
+                                        r="8"
+                                        fill="#3b82f6"
+                                        className="cursor-pointer hover:fill-blue-400"
+                                        onClick={() => triggerCommissionFlow(bot.id)}
+                                    />
+                                ))}
+                                
+                                {/* Wallet center */}
+                                <circle cx="200" cy="150" r="15" fill="#10b981" />
+                                <text x="200" y="155" textAnchor="middle" fill="white" fontSize="12">💰</text>
+                            </svg>
+                        </div>
+
+                        {/* Recent Events */}
+                        <div className="mt-4">
+                            <h4 className="text-white text-sm font-semibold mb-2">Recent Commission Events</h4>
+                            <div className="space-y-1 max-h-20 overflow-y-auto">
+                                {commissionEvents.slice(-3).reverse().map(event => (
+                                    <div key={event.id} className="flex items-center justify-between text-xs bg-black bg-opacity-20 rounded px-2 py-1">
+                                        <span className="text-blue-400">{event.bot.name}</span>
+                                        <span className="text-green-400">${event.amount}</span>
+                                        <span className="text-gray-400">{event.timestamp.toLocaleTimeString()}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Main Dashboard Component
+        function EliteCommandNexus() {
+            const [viewMode, setViewMode] = useState('grid');
+            const [godView, setGodView] = useState(false);
+            const [selectedBot, setSelectedBot] = useState(null);
+            const [visualizationMode, setVisualizationMode] = useState('2d'); // 2d or 3d mode
+            const [isLoading, setIsLoading] = useState(true);
+            const [activeFilter, setActiveFilter] = useState('all');
+            const [ecoMode, setEcoMode] = useState(false);
+
+            useEffect(() => {
+                setTimeout(() => setIsLoading(false), 1500);
+            }, []);
+
+            const handleBotSelect = (bot) => {
+                setSelectedBot(bot);
+            };
+
+            const handleFilterChange = (filterId) => {
+                setActiveFilter(filterId);
+            };
+
+            const handleExport = (data, format) => {
+                const filename = `elite-nexus-export-${Date.now()}.${format}`;
+                const content = format === 'json' ? JSON.stringify(data, null, 2) : data;
+                
+                const blob = new Blob([content], { 
+                    type: format === 'json' ? 'application/json' : 'text/plain' 
+                });
+                
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                // Show notification
+                const notification = document.createElement('div');
+                notification.className = 'fixed top-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+                notification.textContent = `Export completed: ${filename}`;
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 3000);
+            };
+
+            if (isLoading) {
+                return (
+                    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 flex items-center justify-center">
+                        <div className="text-center">
+                            <div className="w-16 h-16 border-4 border-blue-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                            <div className="text-white text-xl font-semibold">Elite Asset Command Nexus</div>
+                            <div className="text-gray-400 text-sm mt-2">Initializing Phase 4 Master Controls...</div>
+                        </div>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
+                    {/* Header */}
+                    <header className="bg-black bg-opacity-50 backdrop-blur-sm border-b border-gray-700">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="flex items-center justify-between h-16">
+                                <div className="flex items-center space-x-4">
+                                    <div className="text-2xl font-bold text-white flex items-center">
+                                        <span className="mr-2">⚡</span>
+                                        Elite Asset Command Nexus
+                                    </div>
+                                    <div className="text-sm text-gray-400">Phase 4: Master Control</div>
+                                </div>
+                                <div className="flex items-center space-x-4">
+                                    <button
+                                        onClick="setViewMode(viewMode === 'grid' ? 'list' : 'grid')"
+                                        className="interactive-btn px-3 py-1 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-lg transition-colors"
+                                    >
+                                        {viewMode === 'grid' ? '📋 List' : '⚏ Grid'}
+                                    </button>
+                                    <button
+                                        onClick="setGodView(!godView)"
+                                        className={`interactive-btn px-3 py-1 text-sm rounded-lg transition-colors ` + (godView ? 'bg-yellow-600 hover:bg-yellow-700 text-white god-view-glow' : 'bg-gray-700 hover:bg-gray-600 text-white')}
+                                    >
+                                        {godView ? '👁️ God View' : '👁️ Standard'}
+                                    </button>
+                                    <button
+                                        onClick="setVisualizationMode(visualizationMode === '2d' ? '3d' : '2d')"
+                                        className="interactive-btn px-3 py-1 text-sm rounded-lg transition-colors " + (visualizationMode === '3d' ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-gray-700 hover:bg-gray-600 text-white')
+                                    >
+                                        {visualizationMode === '3d' ? '🔮 3D View' : '📊 2D View'}
+                                    </button>
+                                    <div className="flex items-center space-x-2">
+                                        <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+                                        <span className="text-green-400 text-sm">Live</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* Main Content */}
+                    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                        {/* Master Control Panel */}
+                        <MasterControlPanel 
+                            onFilterChange={handleFilterChange}
+                            onExport={handleExport}
+                            ecoMode={ecoMode}
+                            setEcoMode={setEcoMode}
+                        />
+
+                        {/* Dashboard Grid */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <AdvancedHeatMap 
+                                viewMode={viewMode}
+                                godView={godView}
+                                onBotSelect={handleBotSelect}
+                            />
+                            <CommissionFlow godView={godView} />
+                        </div>
+
+                        {/* Performance Metrics */}
+                        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div className="elite-card">
+                                <div className="p-4">
+                                    <div className="flex items-center justify-between mb-2">
+                                        <h3 className="text-white text-sm font-semibold">Total Portfolio Value</h3>
+                                        <span className="text-green-400 text-xs">+12.3%</span>
+                                    </div>
+                                    <div className="text-2xl font-bold text-white mb-1">$2,847,392</div>
+                                    <div className="text-xs text-gray-400">24h change: +$312,847</div>
+                                </div>
+                            </div>
+                            
+                            <div className="elite-card">
+                                <div className="p-4">
+                                    <div className="flex items-center justify-between mb-2">
+                                        <h3 className="text-white text-sm font-semibold">Active Strategies</h3>
+                                        <span className="text-blue-400 text-xs">6/8 running</span>
+                                    </div>
+                                    <div className="text-2xl font-bold text-white mb-1">8</div>
+                                    <div className="text-xs text-gray-400">Avg uptime: 99.7%</div>
+                                </div>
+                            </div>
+                            
+                            <div className="elite-card">
+                                <div className="p-4">
+                                    <div className="flex items-center justify-between mb-2">
+                                        <h3 className="text-white text-sm font-semibold flex items-center">
+                                            {ecoMode && <span className="mr-1">🌱</span>}
+                                            Eco Impact Score
+                                        </h3>
+                                        <span className="text-green-400 text-xs">+5.2%</span>
+                                    </div>
+                                    <div className="text-2xl font-bold text-white mb-1">91.5/100</div>
+                                    <div className="text-xs text-gray-400">Carbon neutral: 2 bots</div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            );
+        }
+
+        // Render the app
+        ReactDOM.render(<EliteCommandNexus />, document.getElementById('root'));
+    </script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+/**
+ * Commission Flow Styles - Elite Asset Command Nexus
+ * Overlord Edition - Phase 3
+ */
+
+/* Commission Lines */
+.commission-line {
+    fill: none;
+    stroke: var(--accent-primary);
+    stroke-width: 2px;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    filter: drop-shadow(0 0 3px var(--accent-glow));
+    opacity: 0.8;
+}
+
+/* Commission Particles */
+.commission-particle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--accent-primary);
+    box-shadow: 0 0 8px var(--accent-glow);
+    pointer-events: none;
+    z-index: 1001;
+}
+
+/* Commission Burst Effect */
+.commission-burst {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--accent-primary) 0%, transparent 70%);
+    box-shadow: 0 0 15px var(--accent-glow);
+    pointer-events: none;
+    z-index: 1001;
+}
+
+/* Wallet Popup */
+.wallet-popup {
+    position: absolute;
+    width: 320px;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    padding: 16px;
+    z-index: 1002;
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+    color: var(--text-primary);
+}
+
+/* Wallet Header */
+.wallet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.wallet-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--accent-primary);
+}
+
+.close-wallet {
+    cursor: pointer;
+    font-size: 14px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: var(--bg-secondary);
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+}
+
+.close-wallet:hover {
+    background-color: var(--accent-primary);
+    color: white;
+}
+
+/* Transaction List */
+.transaction-list {
+    max-height: 250px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-secondary) transparent;
+    margin-bottom: 16px;
+}
+
+.transaction-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.transaction-list::-webkit-scrollbar-thumb {
+    background-color: var(--accent-secondary);
+    border-radius: 3px;
+}
+
+.transaction-item {
+    padding: 10px;
+    border-radius: 8px;
+    background-color: var(--bg-secondary);
+    margin-bottom: 8px;
+    transition: transform 0.2s ease;
+}
+
+.transaction-item:hover {
+    transform: translateX(4px);
+    box-shadow: -3px 0 0 var(--accent-primary);
+}
+
+.transaction-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+    font-size: 12px;
+}
+
+.transaction-label {
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.transaction-value {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* Commission Timeline */
+.commission-timeline {
+    position: relative;
+    height: 40px;
+    background-color: var(--bg-secondary);
+    border-radius: 8px;
+    padding: 8px;
+    margin-top: 16px;
+}
+
+.timeline-marker {
+    position: absolute;
+    bottom: 8px;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 16px;
+    background-color: var(--accent-primary);
+    border-radius: 2px;
+    opacity: 0.8;
+}
+
+.timeline-label {
+    position: absolute;
+    bottom: 28px;
+    transform: translateX(-50%);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+/* Animation for timeline */
+@keyframes pulseTimeline {
+    0%, 100% {
+        opacity: 0.6;
+        transform: translateX(-50%) scaleY(1);
+    }
+    50% {
+        opacity: 1;
+        transform: translateX(-50%) scaleY(1.2);
+    }
+}
+
+.timeline-marker {
+    animation: pulseTimeline 2s infinite;
+    animation-delay: calc(var(--index) * 0.2s);
+}

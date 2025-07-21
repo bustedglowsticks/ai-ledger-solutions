@@ -1,0 +1,524 @@
+/* Phase 3: Commission Constellation Engine - Elite Rocket Animations */
+
+.commission-constellation {
+    position: relative;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+    border-radius: 16px;
+    padding: 24px;
+    margin: 20px 0;
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+    min-height: 400px;
+}
+
+.constellation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(33, 150, 243, 0.2);
+}
+
+.constellation-title {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+    background: linear-gradient(135deg, #2196F3, #21CBF3, #00ff88);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 20px rgba(33, 150, 243, 0.3);
+}
+
+.constellation-controls {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.constellation-toggle {
+    background: rgba(33, 150, 243, 0.1);
+    border: 1px solid rgba(33, 150, 243, 0.3);
+    border-radius: 8px;
+    padding: 8px 16px;
+    color: #2196F3;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.constellation-toggle:hover {
+    background: rgba(33, 150, 243, 0.2);
+    border-color: rgba(33, 150, 243, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.2);
+}
+
+.constellation-toggle.active {
+    background: linear-gradient(135deg, #2196F3, #21CBF3);
+    color: white;
+    box-shadow: 0 4px 16px rgba(33, 150, 243, 0.4);
+}
+
+/* Commission Flow Canvas */
+.commission-canvas {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    background: radial-gradient(circle at center, rgba(33, 150, 243, 0.05) 0%, transparent 70%);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.commission-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Dynamic Commission Lines */
+.commission-line {
+    stroke-width: 3;
+    fill: none;
+    stroke-dasharray: 8, 4;
+    stroke-dashoffset: 100;
+    opacity: 0.9;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+.commission-line.high-value {
+    stroke-width: 5;
+    filter: drop-shadow(0 0 8px currentColor);
+    animation: pulseGlow 2s ease-in-out infinite alternate;
+}
+
+.commission-line.eco-rwa {
+    stroke: #00ff88;
+    filter: drop-shadow(0 0 12px #00ff88);
+    animation: ecoFlow 3s ease-in-out infinite;
+}
+
+.commission-line.standard {
+    stroke: #2196F3;
+    filter: drop-shadow(0 0 6px #2196F3);
+}
+
+.commission-line.referral {
+    stroke: #ff9900;
+    filter: drop-shadow(0 0 8px #ff9900);
+}
+
+@keyframes pulseGlow {
+    0% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+@keyframes ecoFlow {
+    0%, 100% { 
+        stroke: #00ff88;
+        filter: drop-shadow(0 0 12px #00ff88);
+    }
+    50% { 
+        stroke: #00cc44;
+        filter: drop-shadow(0 0 16px #00cc44);
+    }
+}
+
+/* Commission Particles */
+.commission-particle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.commission-particle.standard {
+    background: radial-gradient(circle, #2196F3, #1976D2);
+    box-shadow: 0 0 12px rgba(33, 150, 243, 0.8);
+}
+
+.commission-particle.eco-rwa {
+    background: radial-gradient(circle, #00ff88, #00cc44);
+    box-shadow: 0 0 16px rgba(0, 255, 136, 0.9);
+    animation: ecoParticle 1s ease-in-out infinite alternate;
+}
+
+.commission-particle.high-value {
+    background: radial-gradient(circle, #21CBF3, #2196F3);
+    box-shadow: 0 0 20px rgba(33, 203, 243, 1);
+    width: 12px;
+    height: 12px;
+}
+
+.commission-particle.referral {
+    background: radial-gradient(circle, #ff9900, #ff6600);
+    box-shadow: 0 0 14px rgba(255, 153, 0, 0.8);
+}
+
+@keyframes ecoParticle {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.3); }
+}
+
+/* Wallet Nodes */
+.wallet-node {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2196F3, #1976D2);
+    border: 3px solid rgba(33, 150, 243, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 3;
+    backdrop-filter: blur(10px);
+}
+
+.wallet-node:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(33, 150, 243, 0.6);
+    border-color: rgba(33, 150, 243, 0.8);
+}
+
+.wallet-node.main-wallet {
+    background: linear-gradient(135deg, #00ff88, #00cc44);
+    border-color: rgba(0, 255, 136, 0.5);
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.wallet-node.main-wallet:hover {
+    box-shadow: 0 0 30px rgba(0, 255, 136, 0.6);
+    border-color: rgba(0, 255, 136, 0.8);
+}
+
+.wallet-node.referral-wallet {
+    background: linear-gradient(135deg, #ff9900, #ff6600);
+    border-color: rgba(255, 153, 0, 0.5);
+    right: 40px;
+    bottom: 40px;
+}
+
+.wallet-node.referral-wallet:hover {
+    box-shadow: 0 0 30px rgba(255, 153, 0, 0.6);
+}
+
+/* Bot Source Nodes */
+.bot-source {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 3;
+    backdrop-filter: blur(5px);
+}
+
+.bot-source:hover {
+    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.bot-source.eco-bot {
+    border-color: rgba(0, 255, 136, 0.5);
+    background: rgba(0, 255, 136, 0.1);
+}
+
+.bot-source.high-yield {
+    border-color: rgba(33, 203, 243, 0.5);
+    background: rgba(33, 203, 243, 0.1);
+}
+
+/* Wallet Burst Effects */
+.wallet-burst {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(33, 150, 243, 0.4), transparent);
+    transform: scale(0);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.wallet-burst.eco-burst {
+    background: radial-gradient(circle, rgba(0, 255, 136, 0.4), transparent);
+}
+
+.wallet-burst.referral-burst {
+    background: radial-gradient(circle, rgba(255, 153, 0, 0.4), transparent);
+}
+
+/* Interactive Popovers */
+.commission-popover {
+    position: absolute;
+    background: rgba(10, 10, 10, 0.95);
+    border: 1px solid rgba(33, 150, 243, 0.4);
+    border-radius: 12px;
+    padding: 20px;
+    min-width: 320px;
+    z-index: 1000;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+    font-family: 'Inter', sans-serif;
+    color: white;
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.commission-popover.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+.popover-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.popover-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2196F3;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.popover-close {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    font-size: 20px;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.popover-close:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.popover-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.popover-metric {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 14px;
+}
+
+.popover-metric-label {
+    opacity: 0.8;
+    font-weight: 500;
+}
+
+.popover-metric-value {
+    font-weight: 700;
+    color: #00ff88;
+}
+
+.popover-metric-value.referral {
+    color: #ff9900;
+}
+
+.popover-metric-value.high-value {
+    color: #21CBF3;
+}
+
+/* AI Boost Alerts */
+.boost-alert {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background: linear-gradient(135deg, #ff9900, #ff6600);
+    color: white;
+    padding: 16px 20px;
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 8px 24px rgba(255, 153, 0, 0.4);
+    z-index: 10000;
+    transform: translateX(100%);
+    transition: transform 0.5s ease;
+    max-width: 300px;
+}
+
+.boost-alert.visible {
+    transform: translateX(0);
+}
+
+.boost-alert-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.boost-alert-content {
+    font-size: 13px;
+    opacity: 0.9;
+    line-height: 1.4;
+}
+
+/* Stats Panel */
+.constellation-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(33, 150, 243, 0.3);
+    transform: translateY(-2px);
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: 800;
+    color: #2196F3;
+    margin-bottom: 4px;
+}
+
+.stat-value.eco {
+    color: #00ff88;
+}
+
+.stat-value.referral {
+    color: #ff9900;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .commission-constellation {
+        padding: 16px;
+        margin: 12px 0;
+    }
+    
+    .constellation-header {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+    
+    .commission-canvas {
+        height: 250px;
+    }
+    
+    .wallet-node {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+    
+    .bot-source {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+    }
+    
+    .commission-popover {
+        position: fixed;
+        left: 16px;
+        right: 16px;
+        width: auto;
+        min-width: auto;
+    }
+    
+    .constellation-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+}
+
+/* Performance Optimizations */
+.commission-constellation * {
+    will-change: transform, opacity;
+}
+
+.commission-line {
+    contain: layout style paint;
+}
+
+/* Accessibility */
+.wallet-node:focus,
+.bot-source:focus,
+.constellation-toggle:focus {
+    outline: 2px solid #2196F3;
+    outline-offset: 2px;
+}
+
+/* Dark Mode Enhancements */
+@media (prefers-color-scheme: dark) {
+    .commission-constellation {
+        background: linear-gradient(135deg, #000000 0%, #0a0a0a 100%);
+    }
+    
+    .commission-popover {
+        background: rgba(0, 0, 0, 0.95);
+        border-color: rgba(33, 150, 243, 0.5);
+    }
+}

@@ -1,0 +1,287 @@
+/* 
+* Hedge Empire Command Nexus
+* Professional Bloomberg/Apple fusion style for hedge fund-grade asset management
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Base theme */
+:root {
+  --bg-primary: #121212;
+  --bg-secondary: #1e1e1e;
+  --bg-tertiary: #252525;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --accent-primary: #0a84ff;
+  --accent-secondary: #52a9ff;
+  --border-color: rgba(70, 70, 70, 0.2);
+  --success: #34c759;
+  --warning: #ff9500;
+  --danger: #ff3b30;
+  --info: #5ac8fa;
+  --tooltip-bg: rgba(50, 50, 50, 0.95);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 15px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(255, 255, 255, 0.05);
+  --shadow-lg: 0 6px 20px rgba(0, 0, 0, 0.25), 0 2px 4px rgba(255, 255, 255, 0.06);
+}
+
+/* Core layout improvements */
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  padding: 0;
+  max-width: 1400px;
+  margin: auto;
+}
+
+/* Neumorphic card styling */
+.elite-card {
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s ease;
+  margin: 10px 0;
+}
+
+.elite-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+/* Enhanced header */
+header {
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Bloomberg-inspired buttons */
+.interactive-btn {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.interactive-btn:hover {
+  background: var(--accent-primary);
+  color: #ffffff;
+  box-shadow: 0 0 15px rgba(10, 132, 255, 0.4);
+}
+
+/* Apple-inspired clean grid layout */
+.grid-layout {
+  display: grid;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Grid cards - sized by importance */
+.grid-card-sm {
+  height: 120px;
+}
+
+.grid-card-md {
+  height: 200px;
+}
+
+.grid-card-lg {
+  height: 300px;
+}
+
+/* Enhanced heat map styling for Finviz-style look */
+.heat-map-container {
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.heat-map-cell {
+  transition: transform 0.2s ease;
+  border: 1px solid var(--border-color);
+}
+
+.heat-map-cell:hover {
+  transform: scale(1.05);
+  z-index: 10;
+  box-shadow: var(--shadow-lg);
+}
+
+/* Enhanced commission visualization */
+.commission-line {
+  stroke: var(--accent-primary);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 3px var(--accent-primary));
+}
+
+.commission-particle {
+  background: linear-gradient(135deg, var(--info), var(--accent-primary));
+  box-shadow: 0 0 10px var(--info);
+}
+
+.commission-burst {
+  background: radial-gradient(circle, rgba(10, 132, 255, 0.8) 0%, rgba(10, 132, 255, 0) 70%);
+}
+
+/* Master/Admin view exclusive styles */
+.god-view-glow {
+  box-shadow: 0 0 15px rgba(255, 204, 0, 0.4);
+}
+
+.admin-exclusive {
+  border: 1px dashed #ffcc00;
+}
+
+/* Dark mode toggle with subtle animation */
+.theme-toggle {
+  position: relative;
+  width: 50px;
+  height: 24px;
+  background: var(--bg-tertiary);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.theme-toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  transition: all 0.3s ease;
+}
+
+.theme-toggle.active .theme-toggle-thumb {
+  left: 28px;
+}
+
+/* 2D/3D visualization toggle */
+.viz-toggle {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  background: var(--bg-tertiary);
+  border-radius: 20px;
+}
+
+.viz-toggle-option {
+  padding: 4px 12px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.viz-toggle-option.active {
+  background: var(--accent-primary);
+  color: white;
+}
+
+/* Enhanced tooltips for heat map cells */
+.heat-map-tooltip {
+  background: var(--tooltip-bg);
+  border-radius: 4px;
+  padding: 10px;
+  box-shadow: var(--shadow-md);
+  max-width: 250px;
+  z-index: 1000;
+}
+
+/* Enhanced eco-RWA highlights */
+.eco-highlight {
+  position: relative;
+}
+
+.eco-highlight::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 10px var(--success);
+}
+
+/* Export button styling */
+.export-btn {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.export-btn:hover {
+  background: var(--accent-primary);
+  color: white;
+}
+
+/* Wallet flow sidebar enhancements */
+.wallet-sidebar {
+  border-left: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  padding: 15px;
+}
+
+/* Footer totals bar */
+.totals-footer {
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Enhanced metrics display */
+.metric-card {
+  padding: 15px;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-sm);
+}
+
+.metric-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--accent-primary);
+}
+
+.metric-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* Animation for interactive elements */
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(10, 132, 255, 0.4); }
+  70% { box-shadow: 0 0 0 6px rgba(10, 132, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(10, 132, 255, 0); }
+}
+
+.pulse-animation {
+  animation: pulse 2s infinite;
+}
+
+/* Media queries for responsive layout */
+@media (max-width: 768px) {
+  .grid-layout {
+    grid-template-columns: 1fr;
+  }
+}

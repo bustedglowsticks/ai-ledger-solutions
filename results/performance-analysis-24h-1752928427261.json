@@ -1,0 +1,76 @@
+{
+  "timestamp": "2025-07-19T12:33:47.221Z",
+  "period": "24h",
+  "metrics": {
+    "monthly": {
+      "totalProfit": "84.800699",
+      "totalFees": "147.132934",
+      "totalSpread": "171.744922",
+      "totalImpermanentLoss": "77.737585",
+      "profitableDays": 21,
+      "totalDays": 29,
+      "winRate": "72.41",
+      "averageDailyProfit": "2.924162"
+    },
+    "fusion": {
+      "meanYield": -1.1303076644266496,
+      "stdDev": 0.1763379915255553,
+      "sharpeRatio": -6.409893039202746,
+      "minYield": -1.724803487756378,
+      "maxYield": -0.6201001917908249,
+      "simulationParams": {
+        "paths": 1000,
+        "initialPrice": 23000,
+        "volatility": 0.1738,
+        "dailyDrift": 0.002,
+        "days": 365,
+        "positionSize": 0.1,
+        "etfHypeProbability": 0.15,
+        "nasdaqDipProbability": 0.35,
+        "ecoAssetPremium": 0.24
+      }
+    }
+  },
+  "recommendations": [
+    {
+      "priority": "HIGH",
+      "category": "RISK_ADJUSTED_RETURNS",
+      "title": "Improve Risk-Adjusted Returns",
+      "description": "Sharpe ratio is -6.41. Need better risk management.",
+      "action": "Optimize position sizing and volatility management"
+    }
+  ],
+  "optimizations": {
+    "aiOracle": {
+      "confidenceThreshold": 0.95,
+      "surgeDetectionSensitivity": "HIGH",
+      "recommendation": "Adjust AI confidence based on win rate performance"
+    },
+    "quantumOptimizer": {
+      "optimizationFrequency": "REAL_TIME",
+      "performanceBoost": 2.5,
+      "recommendation": "Increase optimization frequency for better performance"
+    },
+    "riskManager": {
+      "maxDrawdown": 0.03,
+      "circuitBreakerThreshold": 0.05,
+      "recommendation": "Tighten risk parameters for better capital preservation"
+    },
+    "yieldOptimizer": {
+      "targetAPY": 350,
+      "rebalancingFrequency": "DAILY",
+      "recommendation": "Adjust target APY based on current performance"
+    }
+  },
+  "summary": {
+    "overallPerformance": "PROFITABLE",
+    "riskLevel": "LOW",
+    "recommendation": "SCALE_UP",
+    "keyMetrics": {
+      "dailyProfit": "2.924162",
+      "winRate": "72.41",
+      "sharpeRatio": "-6.41",
+      "totalProfit": "84.800699"
+    }
+  }
+}

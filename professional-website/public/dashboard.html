@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Institutional Dashboard - Quantum Yield Empire</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-cube"></i>
+                <span>Quantum Yield Empire</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/#solutions">Solutions</a></li>
+                <li><a href="/#performance">Performance</a></li>
+                <li><a href="/#pricing">Pricing</a></li>
+                <li><a href="/#about">About</a></li>
+                <li><a href="/#contact">Contact</a></li>
+                <li><a href="/dashboard" class="btn-dashboard active">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Dashboard Header -->
+    <section class="dashboard-header">
+        <div class="container">
+            <h1>Institutional Dashboard</h1>
+            <p>Real-time performance monitoring and analytics</p>
+        </div>
+    </section>
+
+    <!-- Dashboard Content -->
+    <section class="dashboard-content">
+        <div class="container">
+            <div class="dashboard-grid">
+                <!-- Performance Overview -->
+                <div class="dashboard-card large">
+                    <div class="card-header">
+                        <h3>Performance Overview</h3>
+                        <span class="status-badge success">Live</span>
+                    </div>
+                    <div class="performance-metrics">
+                        <div class="metric-row">
+                            <div class="metric">
+                                <span class="metric-value" id="currentAPY">350.5%</span>
+                                <span class="metric-label">Current APY</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value" id="totalYield">84.8 XRP</span>
+                                <span class="metric-label">Total Yield</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value" id="winRate">72.4%</span>
+                                <span class="metric-label">Win Rate</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value" id="riskLevel">LOW</span>
+                                <span class="metric-label">Risk Level</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Network Status -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3>Network Status</h3>
+                        <span class="status-badge success">Connected</span>
+                    </div>
+                    <div class="status-list">
+                        <div class="status-item">
+                            <span class="status-label">XRPL Testnet</span>
+                            <span class="status-value success">Active</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Wallet</span>
+                            <span class="status-value" id="walletAddress">Loading...</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Balance</span>
+                            <span class="status-value" id="walletBalance">Loading...</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Last Update</span>
+                            <span class="status-value" id="lastUpdate">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Beast Mode Systems -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3>Beast Mode Systems</h3>
+                        <span class="status-badge success">All Active</span>
+                    </div>
+                    <div class="systems-grid">
+                        <div class="system-item active">
+                            <i class="fas fa-brain"></i>
+                            <span>AI Oracle</span>
+                        </div>
+                        <div class="system-item active">
+                            <i class="fas fa-gem"></i>
+                            <span>NFT Vault</span>
+                        </div>
+                        <div class="system-item active">
+                            <i class="fas fa-atom"></i>
+                            <span>Quantum Optimizer</span>
+                        </div>
+                        <div class="system-item active">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Clawback Annihilator</span>
+                        </div>
+                        <div class="system-item active">
+                            <i class="fas fa-users"></i>
+                            <span>Eco-DAO</span>
+                        </div>
+                        <div class="system-item active">
+                            <i class="fas fa-fire"></i>
+                            <span>Hype Storm</span>
+                        </div>
+                        <div class="system-item active">
+                            <i class="fas fa-bridge"></i>
+                            <span>Multi-Chain Bridge</span>
+                        </div>
+                        <div class="system-item active">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Analytics</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Transactions -->
+                <div class="dashboard-card large">
+                    <div class="card-header">
+                        <h3>Recent Transactions</h3>
+                        <span class="status-badge info" id="transactionCount">0</span>
+                    </div>
+                    <div class="transactions-list" id="transactionsList">
+                        <div class="loading">Loading transactions...</div>
+                    </div>
+                </div>
+
+                <!-- Performance Chart -->
+                <div class="dashboard-card large">
+                    <div class="card-header">
+                        <h3>Performance Chart</h3>
+                        <span class="status-badge success">Live Data</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Risk Management -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3>Risk Management</h3>
+                        <span class="status-badge success">Optimal</span>
+                    </div>
+                    <div class="risk-metrics">
+                        <div class="risk-item">
+                            <span class="risk-label">Max Drawdown</span>
+                            <span class="risk-value">3.0%</span>
+                        </div>
+                        <div class="risk-item">
+                            <span class="risk-label">Circuit Breaker</span>
+                            <span class="risk-value success">Active</span>
+                        </div>
+                        <div class="risk-item">
+                            <span class="risk-label">Volatility</span>
+                            <span class="risk-value">Low</span>
+                        </div>
+                        <div class="risk-item">
+                            <span class="risk-label">Sharpe Ratio</span>
+                            <span class="risk-value">2.8</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html> 

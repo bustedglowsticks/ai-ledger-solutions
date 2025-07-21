@@ -1,0 +1,52 @@
+{
+  "name": "elite-yield-command-nexus",
+  "version": "2.0.0",
+  "description": "Ultra-professional Apple-inspired dashboard with physics-based animations and God View",
+  "private": true,
+  "dependencies": {
+    "autoprefixer": "^10.4.15",
+    "axios": "^1.5.0",
+    "d3": "^7.8.5",
+    "framer-motion": "^10.16.4",
+    "gsap": "^3.12.2",
+    "jwt-decode": "^3.1.2",
+    "lucide-react": "^0.279.0",
+    "matter-js": "^0.19.0",
+    "postcss": "^8.4.29",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.15.0",
+    "react-scripts": "5.0.1",
+    "recharts": "^2.8.0",
+    "tailwindcss": "^3.3.3",
+    "xrpl": "^2.11.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/d3": "^7.4.0",
+    "@types/matter-js": "^0.19.2"
+  }
+}

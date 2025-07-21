@@ -1,0 +1,53 @@
+{
+  "name": "quantum-yield-nexus-dashboard",
+  "version": "1.0.0",
+  "description": "Ultra-professional 3D interactive dashboard for Quantum Singularity Nexus",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "dev": "npm start"
+  },
+  "dependencies": {
+    "@react-three/drei": "^9.65.3",
+    "@react-three/fiber": "^8.13.0",
+    "@tailwindcss/forms": "^0.5.3",
+    "autoprefixer": "^10.4.13",
+    "chart.js": "^4.2.1",
+    "d3": "^7.8.2",
+    "framer-motion": "^10.0.1",
+    "html2pdf.js": "^0.10.1",
+    "jsonwebtoken": "^9.0.0",
+    "lucide-react": "^0.321.0",
+    "particles.js": "^2.0.0",
+    "postcss": "^8.4.21",
+    "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.0",
+    "recharts": "^2.5.0",
+    "socket.io-client": "^4.6.1",
+    "tailwindcss": "^3.2.4",
+    "three": "^0.150.1",
+    "xrpl": "^2.7.0"
+  },
+  "devDependencies": {
+    "@types/d3": "^7.4.0",
+    "@types/three": "^0.150.1",
+    "react-scripts": "^5.0.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

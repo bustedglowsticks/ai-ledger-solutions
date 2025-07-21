@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Yield Viz Hub</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; margin: 0; }
+    .header { text-align: center; margin-bottom: 30px; }
+    .yield-stats { background: #fff; padding: 15px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+    .chart-container { background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .chart-container canvas { max-height: 300px; }
+    .controls { background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; }
+    #rerun-button { padding: 12px 24px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+    #rerun-button:hover { background: #45a049; }
+    .slider-container { margin: 10px 0; }
+    .slider-container label { display: inline-block; width: 120px; text-align: left; }
+    .slider-container input { width: 200px; }
+    .eco-badge { background: #4CAF50; color: white; padding: 4px 8px; border-radius: 12px; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🚀 Dynamic Yield Visualization Hub</h1>
+    <div class="yield-stats">
+      <h3>Simulation Results</h3>
+      <p><strong>Base Yield:</strong> 1.93% ± 0.26% | <strong>Tweaked Yield:</strong> 6.79% ± 0.91% <span class="eco-badge">+252% Uplift</span></p>
+      <p><strong>Eco-Bonus:</strong> +24% (Solar RWA) | <strong>Federation Uplift:</strong> +50% | <strong>Sharpe Ratio:</strong> 7.46</p>
+    </div>
+  </div>
+
+  <div class="chart-grid">
+    <div class="chart-container">
+      <h4>Asset Allocation Strategy</h4>
+      <canvas id="allocationChart"></canvas>
+    </div>
+    <div class="chart-container">
+      <h4>Eco-Impact Heatmap</h4>
+      <canvas id="ecoHeatmap"></canvas>
+    </div>
+  </div>
+
+  <div class="chart-container" style="margin-bottom: 20px;">
+    <h4>Sentiment Analysis & Trading Signals</h4>
+    <canvas id="sentimentChart"></canvas>
+  </div>
+
+  <div class="controls">
+    <h4>Interactive Controls</h4>
+    <div class="slider-container">
+      <label>Volatility:</label>
+      <input type="range" id="volSlider" min="0" max="1" step="0.01" value="0.96">
+      <span id="volValue">0.96</span>
+    </div>
+    <div class="slider-container">
+      <label>Eco Weight:</label>
+      <input type="range" id="ecoSlider" min="0" max="1" step="0.01" value="0.24">
+      <span id="ecoValue">0.24</span>
+    </div>
+    <div class="slider-container">
+      <label>Sentiment Threshold:</label>
+      <input type="range" id="sentimentSlider" min="0" max="1" step="0.01" value="0.7">
+      <span id="sentimentValue">0.7</span>
+    </div>
+    <button id="rerun-button">🔄 Rerun Simulation</button>
+  </div>
+
+  <!-- All chart logic is now embedded in the main script below -->
+  <script>
+    // Initialize charts
+    let allocationChart, ecoHeatmap, sentimentChart;
+
+    // Initialize dashboard
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeCharts();
+      setupControls();
+    });
+
+    function initializeCharts() {
+      // Allocation Chart
+      allocationChart = new Chart(document.getElementById('allocationChart'), {
+        type: 'pie',
+        data: {
+          labels: ['RLUSD (Stability)', 'High-Vol Arb', 'Eco-RWA (Solar)'],
+          datasets: [{
+            data: [70, 20, 10],
+            backgroundColor: ['#2196F3', '#FF9800', '#4CAF50']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: (context) => `${context.label}: ${context.raw}% - Eco Bonus: +24%`
+              }
+            }
+          }
+        }
+      });
+
+      // Eco Heatmap (simplified matrix)
+      ecoHeatmap = new Chart(document.getElementById('ecoHeatmap'), {
+        type: 'bar',
+        data: {
+          labels: ['NASDAQ-XRPL', 'Eco-RWA', 'Carbon Offset'],
+          datasets: [{
+            label: 'Correlation/Impact %',
+            data: [70, 24, 100],
+            backgroundColor: ['#2196F3', '#4CAF50', '#8BC34A']
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: { beginAtZero: true, max: 100 }
+          }
+        }
+      });
+
+      // Sentiment Chart
+      sentimentChart = new Chart(document.getElementById('sentimentChart'), {
+        type: 'line',
+        data: {
+          labels: ['T-3', 'T-2', 'T-1', 'Now'],
+          datasets: [{
+            label: 'X Sentiment (#NasdaqHype)',
+            data: [0.5, 0.65, 0.8, 0.75],
+            borderColor: '#2196F3',
+            backgroundColor: 'rgba(33, 150, 243, 0.1)',
+            fill: true
+          }, {
+            label: 'Threshold',
+            data: [0.7, 0.7, 0.7, 0.7],
+            borderColor: '#FF9800',
+            borderDash: [5, 5]
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: { min: 0, max: 1 }
+          }
+        }
+      });
+    }
+
+    function setupControls() {
+      // Volatility slider
+      const volSlider = document.getElementById('volSlider');
+      const volValue = document.getElementById('volValue');
+      volSlider.oninput = function() {
+        volValue.textContent = this.value;
+        updateAllocation(parseFloat(this.value));
+      };
+
+      // Eco weight slider
+      const ecoSlider = document.getElementById('ecoSlider');
+      const ecoValue = document.getElementById('ecoValue');
+      ecoSlider.oninput = function() {
+        ecoValue.textContent = this.value;
+        updateEcoImpact(parseFloat(this.value));
+      };
+
+      // Sentiment threshold slider
+      const sentimentSlider = document.getElementById('sentimentSlider');
+      const sentimentValue = document.getElementById('sentimentValue');
+      sentimentSlider.oninput = function() {
+        sentimentValue.textContent = this.value;
+        updateSentimentThreshold(parseFloat(this.value));
+      };
+
+      // Rerun button
+      document.getElementById('rerun-button').addEventListener('click', rerunSimulation);
+    }
+
+    function updateAllocation(vol) {
+      const rlusdAlloc = Math.min(90, 70 + vol * 20);
+      const arbAlloc = Math.max(5, 20 - vol * 10);
+      const ecoAlloc = Math.max(5, 10 - vol * 5);
+      
+      allocationChart.data.datasets[0].data = [rlusdAlloc, arbAlloc, ecoAlloc];
+      allocationChart.update();
+    }
+
+    function updateEcoImpact(ecoWeight) {
+      const impact = ecoWeight * 100;
+      ecoHeatmap.data.datasets[0].data[1] = impact;
+      ecoHeatmap.update();
+    }
+
+    function updateSentimentThreshold(threshold) {
+      sentimentChart.data.datasets[1].data = [threshold, threshold, threshold, threshold];
+      sentimentChart.update();
+    }
+
+    async function rerunSimulation() {
+      const button = document.getElementById('rerun-button');
+      button.textContent = '🔄 Running...';
+      button.disabled = true;
+      
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Generate new random results
+      const baseYield = (1.5 + Math.random() * 1).toFixed(2);
+      const tweakedYield = (baseYield * 3.5).toFixed(2);
+      const uplift = ((tweakedYield / baseYield - 1) * 100).toFixed(0);
+      
+      alert(`New Simulation Results:\nBase Yield: ${baseYield}%\nTweaked Yield: ${tweakedYield}%\nUplift: +${uplift}%\nEco-Bonus: +24% (100kg CO2 saved)`);
+      
+      button.textContent = '🔄 Rerun Simulation';
+      button.disabled = false;
+    }
+  </script>
+</body>
+</html>

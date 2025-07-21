@@ -1,0 +1,477 @@
+/* Phase 1: Core Layout Polish - Apple/Bloomberg Fusion Design */
+/* Professional hedge fund aesthetics with neumorphic cards and grid layouts */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    /* Apple/Bloomberg Fusion Color Palette */
+    --primary-bg: #0a0a0a;
+    --secondary-bg: #1a1a1a;
+    --card-bg: #1e1e1e;
+    --accent-bg: #2a2a2a;
+    --border-color: #333333;
+    --text-primary: #ffffff;
+    --text-secondary: #b3b3b3;
+    --text-muted: #666666;
+    
+    /* Bloomberg Terminal Colors */
+    --bloomberg-orange: #ff6600;
+    --bloomberg-blue: #0066cc;
+    --bloomberg-green: #00cc66;
+    --bloomberg-red: #cc0066;
+    --bloomberg-yellow: #ffcc00;
+    
+    /* Apple Design System */
+    --apple-blue: #007aff;
+    --apple-green: #34c759;
+    --apple-red: #ff3b30;
+    --apple-orange: #ff9500;
+    --apple-purple: #af52de;
+    
+    /* Neumorphic Shadows */
+    --shadow-light: rgba(255, 255, 255, 0.1);
+    --shadow-dark: rgba(0, 0, 0, 0.5);
+    --neumorphic-shadow: 
+        inset 2px 2px 5px var(--shadow-dark),
+        inset -2px -2px 5px var(--shadow-light);
+    --neumorphic-raised: 
+        2px 2px 5px var(--shadow-dark),
+        -2px -2px 5px var(--shadow-light);
+    
+    /* Grid System */
+    --grid-gap: 24px;
+    --card-radius: 16px;
+    --border-radius-sm: 8px;
+    --border-radius-lg: 24px;
+    
+    /* Typography Scale */
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.875rem;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.25rem;
+    --font-size-2xl: 1.5rem;
+    --font-size-3xl: 1.875rem;
+    --font-size-4xl: 2.25rem;
+}
+
+/* Global Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+    color: var(--text-primary);
+    line-height: 1.6;
+    font-weight: 400;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Main Container Grid Layout */
+.hedge-empire-container {
+    display: grid;
+    grid-template-areas: 
+        "header header header"
+        "sidebar main oracle"
+        "footer footer footer";
+    grid-template-columns: 280px 1fr 400px;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+    gap: var(--grid-gap);
+    padding: var(--grid-gap);
+    max-width: 1920px;
+    margin: 0 auto;
+}
+
+/* Header Section */
+.hedge-empire-header {
+    grid-area: header;
+    background: var(--card-bg);
+    border-radius: var(--card-radius);
+    padding: 20px 32px;
+    box-shadow: var(--neumorphic-raised);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-brand {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.brand-logo {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--bloomberg-orange), var(--apple-blue));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 800;
+    color: white;
+    box-shadow: var(--neumorphic-raised);
+}
+
+.brand-title {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--bloomberg-orange), var(--apple-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.brand-subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* Header Controls */
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 16px;
+    background: var(--accent-bg);
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--border-color);
+}
+
+/* Neumorphic Buttons */
+.neo-button {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    padding: 12px 20px;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-weight: 500;
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--neumorphic-raised);
+    position: relative;
+    overflow: hidden;
+}
+
+.neo-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        4px 4px 12px var(--shadow-dark),
+        -4px -4px 12px var(--shadow-light);
+}
+
+.neo-button:active {
+    transform: translateY(0);
+    box-shadow: var(--neumorphic-shadow);
+}
+
+.neo-button.primary {
+    background: linear-gradient(135deg, var(--apple-blue), var(--bloomberg-blue));
+    color: white;
+    border: none;
+}
+
+.neo-button.success {
+    background: linear-gradient(135deg, var(--apple-green), var(--bloomberg-green));
+    color: white;
+    border: none;
+}
+
+.neo-button.warning {
+    background: linear-gradient(135deg, var(--apple-orange), var(--bloomberg-orange));
+    color: white;
+    border: none;
+}
+
+.neo-button.danger {
+    background: linear-gradient(135deg, var(--apple-red), var(--bloomberg-red));
+    color: white;
+    border: none;
+}
+
+/* Sidebar Section */
+.hedge-empire-sidebar {
+    grid-area: sidebar;
+    background: var(--card-bg);
+    border-radius: var(--card-radius);
+    padding: 24px;
+    box-shadow: var(--neumorphic-raised);
+    border: 1px solid var(--border-color);
+    overflow-y: auto;
+}
+
+.sidebar-section {
+    margin-bottom: 32px;
+}
+
+.sidebar-title {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Main Content Area */
+.hedge-empire-main {
+    grid-area: main;
+    background: var(--card-bg);
+    border-radius: var(--card-radius);
+    padding: 32px;
+    box-shadow: var(--neumorphic-raised);
+    border: 1px solid var(--border-color);
+    overflow-y: auto;
+}
+
+/* Oracle Panel (Right Sidebar) */
+.hedge-empire-oracle {
+    grid-area: oracle;
+    background: var(--card-bg);
+    border-radius: var(--card-radius);
+    padding: 24px;
+    box-shadow: var(--neumorphic-raised);
+    border: 1px solid var(--border-color);
+    overflow-y: auto;
+}
+
+/* Footer Section */
+.hedge-empire-footer {
+    grid-area: footer;
+    background: var(--card-bg);
+    border-radius: var(--card-radius);
+    padding: 20px 32px;
+    box-shadow: var(--neumorphic-raised);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Neumorphic Cards */
+.neo-card {
+    background: var(--card-bg);
+    border-radius: var(--card-radius);
+    padding: 24px;
+    box-shadow: var(--neumorphic-raised);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.neo-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 
+        6px 6px 20px var(--shadow-dark),
+        -6px -6px 20px var(--shadow-light);
+}
+
+.neo-card.inset {
+    box-shadow: var(--neumorphic-shadow);
+}
+
+/* Grid Layouts */
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--grid-gap);
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--grid-gap);
+}
+
+.grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--grid-gap);
+}
+
+.grid-auto {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--grid-gap);
+}
+
+/* Metric Cards */
+.metric-card {
+    background: var(--accent-bg);
+    border-radius: var(--border-radius-sm);
+    padding: 20px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--neumorphic-shadow);
+}
+
+.metric-value {
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.metric-label {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.metric-change {
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+.metric-change.positive {
+    color: var(--apple-green);
+}
+
+.metric-change.negative {
+    color: var(--apple-red);
+}
+
+/* Status Indicators */
+.status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-indicator.active {
+    background: rgba(52, 199, 89, 0.2);
+    color: var(--apple-green);
+    border: 1px solid var(--apple-green);
+}
+
+.status-indicator.warning {
+    background: rgba(255, 149, 0, 0.2);
+    color: var(--apple-orange);
+    border: 1px solid var(--apple-orange);
+}
+
+.status-indicator.error {
+    background: rgba(255, 59, 48, 0.2);
+    color: var(--apple-red);
+    border: 1px solid var(--apple-red);
+}
+
+/* Responsive Design */
+@media (max-width: 1400px) {
+    .hedge-empire-container {
+        grid-template-columns: 240px 1fr 320px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .hedge-empire-container {
+        grid-template-areas: 
+            "header header"
+            "main oracle"
+            "sidebar sidebar"
+            "footer footer";
+        grid-template-columns: 1fr 320px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hedge-empire-container {
+        grid-template-areas: 
+            "header"
+            "main"
+            "oracle"
+            "sidebar"
+            "footer";
+        grid-template-columns: 1fr;
+        padding: 16px;
+        gap: 16px;
+    }
+    
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Animation Utilities */
+.fade-in {
+    animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slide-up {
+    animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scale-in {
+    animation: scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { 
+        opacity: 0; 
+        transform: translateY(20px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+@keyframes scaleIn {
+    from { 
+        opacity: 0; 
+        transform: scale(0.9); 
+    }
+    to { 
+        opacity: 1; 
+        transform: scale(1); 
+    }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--secondary-bg);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
