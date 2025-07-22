@@ -19,7 +19,7 @@ services:
     name: ai-ledger-dashboard
     runtime: node
     buildCommand: npm install
-    startCommand: node src/institutional-dashboard.js
+    startCommand: node run-dashboard.js
     envVars:
       - key: NODE_ENV
         value: production

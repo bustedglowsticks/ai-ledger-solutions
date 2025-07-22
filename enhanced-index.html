@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Ledger Solutions - AI-Powered Financial Intelligence Platform</title>
+    <meta name="description" content="Advanced AI-driven financial analytics platform. Generate 35%+ APY with intelligent trading algorithms, real-time market analysis, and automated portfolio optimization.">
+    <meta name="keywords" content="AI finance, financial intelligence, automated trading, XRPL, cryptocurrency, yield optimization, financial analytics">
+    
+    <!-- Modern Font Imports -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js for Advanced Visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/date-fns@1.30.1/index.js"></script>
+    
+    <style>
+        :root {
+            /* Clean Color Palette inspired by analyst1.com */
+            --primary-bg: #ffffff;
+            --secondary-bg: #f8fafc;
+            --tertiary-bg: #f1f5f9;
+            --dark-bg: #0f172a;
+            --card-bg: #ffffff;
+            
+            /* Accent Colors */
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-purple: #8b5cf6;
+            --accent-orange: #f59e0b;
+            --accent-red: #ef4444;
+            
+            /* Text Colors */
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-light: #94a3b8;
+            --text-white: #ffffff;
+            
+            /* Borders & Shadows */
+            --border-light: #e2e8f0;
+            --border-medium: #cbd5e1;
+            --shadow-soft: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-large: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            
+            /* Typography */
+            --font-primary: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--primary-bg);
+            overflow-x: hidden;
+        }
+
+        /* Clean Navigation inspired by analyst1.com */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-light);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95em;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-blue);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .cta-btn {
+            background: var(--accent-blue);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .cta-btn:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        /* Hero Section with Clean Design */
+        .hero {
+            padding: 1.5rem 2rem 1.5rem;
+            margin-top: 4rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            text-align: center;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25em;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            line-height: 1.5;
+        }
+
+        .hero-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+            padding: 2rem 0;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border-light);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .metric-value {
+            font-family: var(--font-display);
+            font-size: 2.5em;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+        }
+
+        .btn-primary {
+            background: var(--accent-blue);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-soft);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--text-primary);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-medium);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .btn-secondary:hover {
+            background: var(--secondary-bg);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        /* AI Dashboard Section inspired by GoodData */
+        .ai-dashboard {
+            padding: 3rem 2rem;
+            background: var(--primary-bg);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.2em;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 10px;
+            padding: 0.75rem;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border-light);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 0.5rem;
+        }
+
+        .chart-title {
+            font-family: var(--font-display);
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .chart-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chart-control {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            background: white;
+            color: var(--text-secondary);
+            font-size: 0.85em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chart-control.active,
+        .chart-control:hover {
+            background: var(--accent-blue);
+            color: white;
+            border-color: var(--accent-blue);
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-rows: repeat(3, 1fr);
+            gap: 0.75rem;
+        }
+
+        .kpi-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border-light);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .kpi-title {
+            font-size: 0.8em;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+            font-weight: 500;
+        }
+
+        .kpi-value {
+            font-family: var(--font-display);
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .kpi-change {
+            font-size: 0.8em;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+            display: inline-block;
+            width: fit-content;
+        }
+
+        .kpi-change.positive {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-green);
+        }
+
+        .kpi-change.negative {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--accent-red);
+        }
+
+        /* AI Features Grid */
+        .ai-features {
+            padding: 6rem 2rem;
+            background: var(--secondary-bg);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-large);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5em;
+            color: white;
+            font-weight: bold;
+        }
+
+        .feature-title {
+            font-family: var(--font-display);
+            font-size: 1.4em;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-stats {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .feature-stat {
+            text-align: center;
+        }
+
+        .feature-stat-value {
+            font-family: var(--font-display);
+            font-size: 1.2em;
+            font-weight: 700;
+            color: var(--accent-blue);
+        }
+
+        .feature-stat-label {
+            font-size: 0.8em;
+            color: var(--text-light);
+        }
+
+        /* Pricing Section with Clean Cards */
+        .pricing {
+            padding: 6rem 2rem;
+            background: var(--primary-bg);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem 2.5rem;
+            box-shadow: var(--shadow-soft);
+            border: 2px solid var(--border-light);
+            transition: all 0.3s ease;
+            position: relative;
+            text-align: center;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--accent-blue);
+            transform: scale(1.05);
+            box-shadow: var(--shadow-large);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-large);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .plan-name {
+            font-family: var(--font-display);
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-price {
+            font-family: var(--font-display);
+            font-size: 3em;
+            font-weight: 800;
+            color: var(--accent-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-period {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin-bottom: 2.5rem;
+            text-align: left;
+        }
+
+        .plan-features li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .plan-features li:last-child {
+            border-bottom: none;
+        }
+
+        .plan-features li::before {
+            content: "✓";
+            color: var(--accent-green);
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        /* Financial Analytics Section */
+        .analytics-showcase {
+            padding: 6rem 2rem;
+            background: var(--dark-bg);
+            color: white;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 3rem;
+            align-items: center;
+        }
+
+        .analytics-content h3 {
+            font-family: var(--font-display);
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .analytics-content p {
+            color: #cbd5e1;
+            font-size: 1.1em;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .analytics-features {
+            list-style: none;
+        }
+
+        .analytics-features li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: #e2e8f0;
+        }
+
+        .analytics-features li::before {
+            content: "→";
+            color: var(--accent-blue);
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .analytics-visual {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--tertiary-bg);
+            padding: 4rem 2rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            font-family: var(--font-display);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-light);
+            color: var(--text-light);
+            font-size: 0.9em;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .analytics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .pricing-card.featured {
+                transform: none;
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Chart Canvas Styling */
+        canvas {
+            max-width: 100%;
+            height: auto !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Clean Header -->
+    <header class="header">
+        <nav class="nav">
+            <a href="#" class="logo">
+                <span>AI Ledger Solutions</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#dashboard">Analytics</a></li>
+                <li><a href="#features">AI Features</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#performance">Performance</a></li>
+            </ul>
+            <a href="#pricing" class="cta-btn">Start Trading</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content fade-in">
+            <h1>AI-Powered Financial Intelligence Platform</h1>
+            <p class="hero-subtitle">
+                Advanced machine learning algorithms analyze market patterns in real-time, 
+                executing optimal trades and maximizing returns with institutional-grade precision.
+            </p>
+
+            <div class="hero-metrics">
+                <div class="metric-card">
+                    <div class="metric-value">35.7%</div>
+                    <div class="metric-label">Average APY</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">$2.4M+</div>
+                    <div class="metric-label">Assets Under Management</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">99.2%</div>
+                    <div class="metric-label">Uptime Reliability</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">1,247</div>
+                    <div class="metric-label">Active Traders</div>
+                </div>
+            </div>
+
+            <div class="hero-buttons">
+                <a href="https://ai-ledger-solutions.onrender.com" class="btn-primary">
+                    Launch Platform
+                </a>
+                <a href="#dashboard" class="btn-secondary">
+                    View Analytics
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Dashboard Section -->
+    <section class="ai-dashboard" id="dashboard">
+        <div class="section-header fade-in">
+            <h2 class="section-title">Real-Time Financial Intelligence</h2>
+            <p class="section-subtitle">
+                Advanced AI-driven analytics provide comprehensive insights into market trends, 
+                portfolio performance, and risk management in real-time.
+            </p>
+        </div>
+
+        <div class="dashboard-grid fade-in">
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h3 class="chart-title">Portfolio Performance</h3>
+                    <div class="chart-controls">
+                        <button class="chart-control active" data-period="1d">1D</button>
+                        <button class="chart-control" data-period="1w">1W</button>
+                        <button class="chart-control" data-period="1m">1M</button>
+                        <button class="chart-control" data-period="3m">3M</button>
+                        <button class="chart-control" data-period="1y">1Y</button>
+                    </div>
+                </div>
+                <canvas id="portfolioChart" width="250" height="80"></canvas>
+            </div>
+
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-title">Total Return</div>
+                    <div class="kpi-value">+47.3%</div>
+                    <span class="kpi-change positive">+12.4% vs last month</span>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Active Strategies</div>
+                    <div class="kpi-value">12</div>
+                    <span class="kpi-change positive">+3 this week</span>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Risk Score</div>
+                    <div class="kpi-value">4.2/10</div>
+                    <span class="kpi-change negative">+0.3 vs target</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container fade-in" style="margin-top: 1.5rem;">
+            <div class="chart-header">
+                <h3 class="chart-title">AI Strategy Allocation</h3>
+                <div class="chart-controls">
+                    <button class="chart-control active">Live</button>
+                    <button class="chart-control">Projected</button>
+                </div>
+            </div>
+            <canvas id="allocationChart" width="200" height="80"></canvas>
+        </div>
+    </section>
+
+    <!-- AI Features Section -->
+    <section class="ai-features" id="features">
+        <div class="section-header fade-in">
+            <h2 class="section-title">Intelligent Trading Capabilities</h2>
+            <p class="section-subtitle">
+                Powered by advanced machine learning algorithms and real-time market analysis
+            </p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card fade-in">
+                <div class="feature-icon">AI</div>
+                <h3 class="feature-title">Adaptive AI Trading</h3>
+                <p class="feature-description">
+                    Advanced neural networks continuously learn from market patterns, adjusting strategies 
+                    in real-time to optimize returns and minimize risk across diverse market conditions.
+                </p>
+                <div class="feature-stats">
+                    <div class="feature-stat">
+                        <div class="feature-stat-value">87%</div>
+                        <div class="feature-stat-label">Success Rate</div>
+                    </div>
+                    <div class="feature-stat">
+                        <div class="feature-stat-value">24/7</div>
+                        <div class="feature-stat-label">Monitoring</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-card fade-in">
+                <div class="feature-icon">PA</div>
+                <h3 class="feature-title">Predictive Analytics</h3>
+                <p class="feature-description">
+                    Leveraging big data and machine learning to forecast market movements, identify 
+                    emerging opportunities, and predict optimal entry and exit points.
+                </p>
+                <div class="feature-stats">
+                    <div class="feature-stat">
+                        <div class="feature-stat-value">94%</div>
+                        <div class="feature-stat-label">Accuracy</div>
+                    </div>
+                    <div class="feature-stat">
+                        <div class="feature-stat-value">1ms</div>
+                        <div class="feature-stat-label">Latency</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-card fade-in">
+                <div class="feature-icon">RM</div>
+                <h3 class="feature-title">Risk Management AI</h3>
+                <p class="feature-description">
+                    Intelligent risk assessment algorithms continuously monitor portfolio exposure, 
+                    automatically adjusting positions to maintain optimal risk-reward ratios.
+                </p>
+                <div class="feature-stats">
+                    <div class="feature-stat">
+                        <div class="feature-stat-value">99.7%</div>
+                        <div class="feature-stat-label">Protection</div>
+                    </div>
+                    <div class="feature-stat">
+                        <div class="feature-stat-value">Real-time</div>
+                        <div class="feature-stat-label">Monitoring</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-card fade-in">
+                <div class="feature-icon">HF</div>
+                <h3 class="feature-title">High-Frequency Execution</h3>
+                <p class="feature-description">
+                    Sub-millisecond trade execution on XRPL network ensures you capture every market 
+                    opportunity with institutional-grade speed and precision.
+                </p>
+                <div class="feature-stats">
+                    <div class="feature-stat">
+                        <div class="feature-stat-value">0.3ms</div>
+                        <div class="feature-stat-label">Execution</div>
+                    </div>
+                    <div class="feature-stat">
+                        <div class="feature-stat-value">15,420</div>
+                        <div class="feature-stat-label">Daily Trades</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-card fade-in">
+                <div class="feature-icon">MA</div>
+                <h3 class="feature-title">Multi-Asset Intelligence</h3>
+                <p class="feature-description">
+                    Cross-market analysis spanning crypto, forex, and traditional assets to identify 
+                    arbitrage opportunities and optimize portfolio diversification.
+                </p>
+                <div class="feature-stats">
+                    <div class="feature-stat">
+                        <div class="feature-stat-value">50+</div>
+                        <div class="feature-stat-label">Markets</div>
+                    </div>
+                    <div class="feature-stat">
+                        <div class="feature-stat-value">1000+</div>
+                        <div class="feature-stat-label">Assets</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-card fade-in">
+                <div class="feature-icon">PS</div>
+                <h3 class="feature-title">Personalized Strategies</h3>
+                <p class="feature-description">
+                    AI learns your risk tolerance and investment goals to create personalized trading 
+                    strategies that align with your financial objectives.
+                </p>
+                <div class="feature-stats">
+                    <div class="feature-stat">
+                        <div class="feature-stat-value">Custom</div>
+                        <div class="feature-stat-label">Strategies</div>
+                    </div>
+                    <div class="feature-stat">
+                        <div class="feature-stat-value">AI-Driven</div>
+                        <div class="feature-stat-label">Optimization</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Financial Analytics Showcase -->
+    <section class="analytics-showcase">
+        <div class="section-header">
+            <h2 class="section-title" style="color: white;">Advanced Financial Intelligence</h2>
+            <p class="section-subtitle" style="color: #cbd5e1;">
+                Institutional-grade analytics and AI-powered insights for superior investment performance
+            </p>
+        </div>
+
+        <div class="analytics-grid">
+            <div class="analytics-content fade-in">
+                <h3>Data-Driven Decision Making</h3>
+                <p>
+                    Our AI platform processes millions of data points across multiple markets, 
+                    economic indicators, and sentiment analysis to provide you with actionable 
+                    insights that drive superior investment performance.
+                </p>
+                <ul class="analytics-features">
+                    <li>Real-time market sentiment analysis</li>
+                    <li>Cross-correlation pattern recognition</li>
+                    <li>Volatility prediction models</li>
+                    <li>Automated portfolio rebalancing</li>
+                    <li>Risk-adjusted return optimization</li>
+                </ul>
+            </div>
+            <div class="analytics-visual fade-in">
+                <canvas id="analyticsChart" width="250" height="120"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="section-header fade-in">
+            <h2 class="section-title">Investment Tiers</h2>
+            <p class="section-subtitle">
+                Choose the plan that matches your investment goals and risk tolerance
+            </p>
+        </div>
+
+        <div class="pricing-grid">
+            <div class="pricing-card fade-in">
+                <h3 class="plan-name">Starter Intelligence</h3>
+                <div class="plan-price">$1,000</div>
+                <div class="plan-period">Minimum Investment</div>
+                <ul class="plan-features">
+                    <li>AI-powered portfolio management</li>
+                    <li>Basic risk assessment algorithms</li>
+                    <li>Real-time market monitoring</li>
+                    <li>Mobile dashboard access</li>
+                    <li>Weekly performance reports</li>
+                    <li>Email support</li>
+                </ul>
+                <a href="https://ai-ledger-solutions.onrender.com" class="btn-primary">Get Started</a>
+            </div>
+
+            <div class="pricing-card featured fade-in">
+                <div class="pricing-badge">Most Popular</div>
+                <h3 class="plan-name">Professional AI</h3>
+                <div class="plan-price">$10,000</div>
+                <div class="plan-period">Minimum Investment</div>
+                <ul class="plan-features">
+                    <li>Advanced machine learning strategies</li>
+                    <li>Predictive analytics engine</li>
+                    <li>Multi-asset arbitrage detection</li>
+                    <li>Custom strategy development</li>
+                    <li>Real-time risk management</li>
+                    <li>Priority support & analysis</li>
+                    <li>API access for integrations</li>
+                    <li>Advanced reporting suite</li>
+                </ul>
+                <a href="https://ai-ledger-solutions.onrender.com" class="btn-primary">Launch Platform</a>
+            </div>
+
+            <div class="pricing-card fade-in">
+                <h3 class="plan-name">Institutional Elite</h3>
+                <div class="plan-price">$100,000</div>
+                <div class="plan-period">Minimum Investment</div>
+                <ul class="plan-features">
+                    <li>Enterprise AI trading infrastructure</li>
+                    <li>High-frequency execution algorithms</li>
+                    <li>Dedicated strategy research team</li>
+                    <li>White-label platform access</li>
+                    <li>Custom AI model development</li>
+                    <li>24/7 dedicated account management</li>
+                    <li>Regulatory compliance support</li>
+                    <li>Institutional-grade security</li>
+                </ul>
+                <a href="https://ai-ledger-solutions.onrender.com" class="btn-primary">Contact Sales</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>AI Ledger Solutions</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                    Advanced AI-powered financial intelligence platform for institutional and retail investors.
+                </p>
+                <a href="https://ai-ledger-solutions.onrender.com" class="btn-primary">
+                    Launch Platform
+                </a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Platform</h3>
+                <ul class="footer-links">
+                    <li><a href="#dashboard">Trading Dashboard</a></li>
+                    <li><a href="#pricing">Demo Environment</a></li>
+                    <li><a href="#dashboard">Analytics Suite</a></li>
+                    <li><a href="#features">API Access</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="#features">AI Features</a></li>
+                    <li><a href="#dashboard">Performance Analytics</a></li>
+                    <li><a href="mailto:support@ailedgersolutions.com">Support</a></li>
+                    <li><a href="#">API Documentation</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Risk Disclosure</a></li>
+                    <li><a href="#">Regulatory Compliance</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 AI Ledger Solutions. All rights reserved. | 
+               Investment involves risk. Only invest what you can afford to lose.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Portfolio Performance Chart
+        const portfolioCtx = document.getElementById('portfolioChart').getContext('2d');
+        const portfolioChart = new Chart(portfolioCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Portfolio Value',
+                    data: [100000, 103500, 108200, 112800, 118500, 123200, 127800, 135400, 142100, 147300, 153800, 162400],
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#3b82f6',
+                    pointBorderColor: '#ffffff',
+                    pointBorderWidth: 2,
+                    pointRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        grid: {
+                            color: '#e2e8f0'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + (value / 1000) + 'K';
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                elements: {
+                    point: {
+                        hoverRadius: 8
+                    }
+                }
+            }
+        });
+
+        // Strategy Allocation Chart
+        const allocationCtx = document.getElementById('allocationChart').getContext('2d');
+        const allocationChart = new Chart(allocationCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['AI Arbitrage', 'Momentum Trading', 'Risk Parity', 'Yield Farming', 'Hedge Strategies'],
+                datasets: [{
+                    data: [35, 25, 20, 15, 5],
+                    backgroundColor: [
+                        '#3b82f6',
+                        '#10b981',
+                        '#8b5cf6',
+                        '#f59e0b',
+                        '#ef4444'
+                    ],
+                    borderWidth: 0,
+                    hoverBorderWidth: 3,
+                    hoverBorderColor: '#ffffff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 20
+                        }
+                    }
+                },
+                cutout: '60%'
+            }
+        });
+
+        // Analytics Chart
+        const analyticsCtx = document.getElementById('analyticsChart').getContext('2d');
+        const analyticsChart = new Chart(analyticsCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Risk Score', 'Diversification', 'Performance', 'Liquidity', 'Volatility'],
+                datasets: [{
+                    label: 'Current',
+                    data: [8.2, 9.1, 9.5, 8.8, 7.9],
+                    backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                    borderColor: '#3b82f6',
+                    borderWidth: 1
+                }, {
+                    label: 'Benchmark',
+                    data: [7.5, 8.2, 8.1, 8.0, 8.5],
+                    backgroundColor: 'rgba(16, 185, 129, 0.6)',
+                    borderColor: '#10b981',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white'
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 10,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        ticks: {
+                            color: 'white'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: 'white'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Chart control functionality
+        document.querySelectorAll('.chart-control').forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from siblings
+                this.parentNode.querySelectorAll('.chart-control').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Update chart data based on period (simplified)
+                const period = this.dataset.period;
+                console.log('Chart period changed to:', period);
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Header background on scroll
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+                header.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                header.style.boxShadow = 'none';
+            }
+        });
+
+        // Console branding
+        console.log(`
+AI LEDGER SOLUTIONS - AI FINANCIAL INTELLIGENCE
+================================================
+Advanced machine learning algorithms
+Real-time market analysis
+Personalized investment strategies
+Institutional-grade security
+
+Ready to transform your portfolio? https://ai-ledger-solutions.onrender.com
+        `);
+    </script>
+</body>
+</html> 
