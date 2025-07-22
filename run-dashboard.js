@@ -1,3 +1,5 @@
+console.log('⚪️ [STARTUP] Executing run-dashboard.js...');
+
 /**
  * Production Dashboard Runner
  * 

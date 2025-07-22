@@ -1,5 +1,8 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
+
+app.use(cors()); // Enable Cross-Origin Resource Sharing
 const PORT = 3000;
 
 // Beast Mode Data
