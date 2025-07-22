@@ -5,21 +5,26 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
-    "dashboard": "node src/run-dashboard.js",
+    "dashboard": "node run-dashboard.js",
     "test": "jest",
-    "start-dashboard": "node src/run-dashboard.js"
+    "start-dashboard": "node run-dashboard.js"
   },
   "dependencies": {
     "axios": "^1.3.4",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "helmet": "^7.0.0",
+    "compression": "^1.7.4",
     "uuid": "^11.1.0",
     "ws": "^8.13.0",
     "xrpl": "^2.7.0"
   },
   "devDependencies": {
     "jest": "^28.1.3"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   },
   "author": "",
   "license": "MIT"
