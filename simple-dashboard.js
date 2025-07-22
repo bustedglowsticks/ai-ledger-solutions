@@ -271,9 +271,4 @@ app.get('/', (req, res) => {
   `);
 });
 
-app.listen(PORT, () => {
-  console.log(`🔥 BEAST MODE DASHBOARD RUNNING ON PORT ${PORT}! 🔥`);
-  console.log(`🌐 Access your dashboard at: http://localhost:${PORT}`);
-  console.log(`💰 Monitor your passive income machine in real-time!`);
-  console.log(`🚀 Ready to dominate the DeFi ecosystem!`);
-}); 
+module.exports = app; 
