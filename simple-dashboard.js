@@ -235,8 +235,19 @@ app.get('/', (req, res) => {
     
     <script>
         function updateDashboard() {
-            fetch('/api/status')
-                .then(response => response.json())
+            // Use production URL on Vercel, otherwise use local dev URL
+            const isProduction = window.location.hostname.includes('vercel.app');
+            const apiUrl = isProduction 
+                ? 'https://ai-ledger-dashboard.onrender.com/api/status' 
+                : 'http://localhost:3000/api/status';
+
+            fetch(apiUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     document.getElementById('current-apy').textContent = data.apy.toFixed(1) + '%';
                     document.getElementById('balance').textContent = data.balance.toFixed(0) + ' XRP';
@@ -245,7 +256,11 @@ app.get('/', (req, res) => {
                     document.getElementById('daily-yield').textContent = (data.balance * data.apy / 100 / 365).toFixed(1) + ' XRP';
                     document.getElementById('apy-display').textContent = 'APY: ' + data.apy.toFixed(1) + '%';
                 })
-                .catch(error => console.error('Error updating dashboard:', error));
+                .catch(error => {
+                    console.error('Error updating dashboard:', error);
+                    // Display an error message to the user
+                    document.getElementById('apy-display').textContent = 'Error loading data';
+                });
         }
         
         updateDashboard();

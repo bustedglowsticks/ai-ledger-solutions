@@ -1,15 +1,17 @@
 /**
- * Dashboard Runner
+ * Production Dashboard Runner
  * 
- * This is a simple wrapper script to start the institutional dashboard
- * from the root directory, making it easier to deploy to Render.com
+ * This script starts the simple-dashboard Express server for production environments like Render.
+ * It ensures the server listens on the correct host and port.
  */
 
-const InstitutionalDashboard = require('./src/institutional-dashboard');
+const app = require('./simple-dashboard'); // Import the Express app
 
-// Create and start the dashboard
-const dashboard = new InstitutionalDashboard();
-const port = process.env.PORT || 10001;
-dashboard.start(port);
+// Render provides the PORT environment variable
+const PORT = process.env.PORT || 3001;
+// We must listen on 0.0.0.0 for Render to route traffic correctly
+const HOST = '0.0.0.0';
 
-console.log(`🚀 Institutional Dashboard started on port ${port}!`);
+app.listen(PORT, HOST, () => {
+  console.log(`✅ AI Ledger Dashboard server listening on http://${HOST}:${PORT}`);
+});
