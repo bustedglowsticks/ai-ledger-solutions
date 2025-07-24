@@ -1,4 +1,4 @@
-console.log('⚪️ [STARTUP] Executing run-dashboard.js...');
+console.log(' [STARTUP] Executing run-dashboard.js...');
 
 /**
  * Production Dashboard Runner
@@ -7,7 +7,7 @@ console.log('⚪️ [STARTUP] Executing run-dashboard.js...');
  * It ensures the server listens on the correct host and port.
  */
 
-const app = require('./simple-dashboard'); // Import the Express app
+const app = require('./institutional-dashboard'); // Import the Express app
 
 // Render provides the PORT environment variable
 const PORT = process.env.PORT || 3001;
@@ -15,5 +15,5 @@ const PORT = process.env.PORT || 3001;
 const HOST = '0.0.0.0';
 
 app.listen(PORT, HOST, () => {
-  console.log(`✅ AI Ledger Dashboard server listening on http://${HOST}:${PORT}`);
+  console.log(` AI Ledger Dashboard server listening on http://${HOST}:${PORT}`);
 });
