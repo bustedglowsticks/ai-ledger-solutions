@@ -7,7 +7,14 @@ console.log(' [STARTUP] Executing run-dashboard.js...');
  * It ensures the server listens on the correct host and port.
  */
 
-const InstitutionalDashboard = require('./institutional-dashboard'); // Import the dashboard class
+// Try to import from current directory first, then from parent if that fails
+let InstitutionalDashboard;
+try {
+  InstitutionalDashboard = require('./institutional-dashboard');
+} catch (e) {
+  // If not found in current directory, try to import from self (for when run-dashboard.js is in src directory)
+  InstitutionalDashboard = require('./src/institutional-dashboard');
+}
 
 // Create dashboard instance
 const dashboard = new InstitutionalDashboard();
